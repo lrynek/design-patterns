@@ -1,7 +1,8 @@
 # Pattern Definition
 In this episode we are going to talk about the command pattern, which is a behavioral pattern.
 If you don't remember what it means, what are you doing here? Go back to episode 1! Just kidding.
-Here's a quick reminder. Behavioral patterns are those that...(fill in definition).
+Here's a quick reminder. Behavioral patterns are those help you design classes with specific 
+responsibilities that can then work together, instead of putting all of that code into one giant class.
 
 Official definition: The command pattern encapsulates a request as a stand-alone object,
 allowing parameterization of clients with different requests, queueing or logging requests,
