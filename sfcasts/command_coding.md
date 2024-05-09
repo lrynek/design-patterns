@@ -1,5 +1,4 @@
-# Chapter 3
-# Implementing Actions as Commands
+# Adding Actions to the Game - Chapter 3
 
 The game development department has asked us to make the game more fun and interactive. 
 Instead of running the match automatically, they want the player to be able to choose 
@@ -52,14 +51,14 @@ the empty constructor for now, and I'll implement the `execute()` method, then p
 ```
 
 Perfect! It's now obvious what arguments we're missing, the `$player`, `$ai`, and `$fightResult`. 
-So now, the next question is, should I pass them to the method or to the constructor? Usually, 
+So now, the next question is, should we pass them to the method or to the constructor? Usually, 
 the `execute()` method of the command pattern does not have any arguments because we want to
 decouple the instantiation from the execution. By setting them to the constructor 
-we're decoupling **when** this command is going to run from when it's created. Also, 
-it will make our life easier when we implement the undo operation. The arguments won't have
+we're decoupling **when** this command is going to be run from when it's created. Also, 
+it will make our life easier when implementing the undo operation. The arguments won't have
 to be available at that specific moment.
 
-Alright! Let's update our constructor. 
+Alright! Let's add these three arguments to the constructor. 
 
 ```php
 class AttackCommand
@@ -73,28 +72,51 @@ class AttackCommand
 }
 ```
 
-update the execute method to use $this
+Next, in the `execute()` method we need to replace the local variables with `$this`.
 
-update GameApplication
-update AI turn
+Perfect! Our `AttackCommand` is ready. Now, let's go back to the `GameApplication`.
+Let's add the arguments to the `AttackCommand` object. `$player`, `$ai`, and `$fightResultSet`.
+And, scroll down a bit, there's the AI's turn, let's use our command there too.
 
-give it a try. Everything works just like before
+Great! We're ready to give it a try. Let's run the game and play a match, everything
+sould work exactly as before. Exiting, right?!
 
-Next, implement other actions
-start by creating the interface, make the AttackCommand implement it
-create other two derivatives, copy-paste their code explaining quickly how it works
+## Implementing Actions as Commands
 
-update GameApplication, ask player to choose an action
-quickly talk about $printer object
+Ok, the next step is to create the other actions, heal and surrender. Let's start by
+creating an interface for our commands. Call it `ActionCommandInterface` and it will have
+an `execute()` method.
 
+Next, create a PHP class called `HealCommand` and make it implement the interface. For 
+the `execute()` method, I'll copy-paste some code to save us time, you'll see it in the code
+blocks below the video. It just implements some randomness to determine how much health the
+player will recover.
 
-# Chapter 4
-## Undo feature
+And now let's do the same for the surrender action. Create a `SurrenderCommand` class, implement
+the interface, and for the implementation... I'm going to cheat, I'll set the player's health to 0,
+and print a message.
 
-implement undo feature
+Now, let's go back to the `GameApplication` and ask the player to choose an action.
 
-## Using Command for queuing actions
+```php
+public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void
+{
+    $actionChoice = GameApplication::$printer->choice('Your turn', [
+        'Attack',
+        'Heal',
+        'Surrender',
+    ]);
 
-## Where do we see this in the real world?
+    $playerAction = match ($actionChoice) {
+        'Attack' => new AttackCommand($player, $ai, $fightResultSet),
+        'Heal' => new HealCommand($player),
+        'Surrender' => new SurrenderCommand($player),
+    };  
+}
+```
 
-## Conclusion
+Perfect! It's time of the truth! Let's play a few rounds.
+
+`bin/console app:game:play`
+
+Sweet! it's asking us what to do
