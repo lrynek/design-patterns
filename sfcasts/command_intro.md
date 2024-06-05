@@ -3,25 +3,26 @@
 Are you ready for a new design patterns episode? Go grab a cup of coffee and sit tight 
 because we'll take a deep dive into the command pattern. 
 
-Let's start with the boring part first, the definition and theory, and later we'll
+Let's start with the boring part first, definition and theory, and later we'll
 have some fun applying it into our game application.
 
-The command pattern is a behavioral kind of pattern. If you already forgot 
-what it means, just like me, here's a quick reminder. 
-Behavioral patterns are those that help you design classes with specific responsibilities 
-that can then work together, instead of putting all of that code into one giant class.
+The command pattern is a behavioral pattern. In case you forgot what it means
+here's a quick reminder. Behavioral patterns are those that help you design classes 
+with specific responsibilities that can then work together, instead of putting 
+all of that code into one giant class.
 
 The official definition says that the command pattern **encapsulates** a request 
 as a stand-alone object, allowing parameterization of clients with different requests, 
 queueing or logging requests, and support undoable operations.
 
-Uhm, what?. Ok, let's try it again with a more friendly definition.
+Uhm, whaat?. Ok, let's try it again with a more friendly definition.
 
 The command pattern encapsulates a task into an object, **decoupling** what it does, 
 how it does it, and when it gets done. Also, it allows to undo its actions
 by **remembering** enough information of what things need to be reverted.
 
-Yea... I didn't get it too, again, but don't worry, it will get better when we see it in action.
+Ha! I don't know if it got any better but don't worry, it will make sense 
+when we see it in action.
 
 ## Pattern Anatomy
 
@@ -69,7 +70,7 @@ public function pressButton(string $button)
 ```
 
 As we keep implementing more buttons this approach will become a mess pretty quickly. Also, 
-it would be aa maintenance nightmare and impossible to reuse the code.
+it would be a maintenance nightmare and impossible to reuse the code.
 
 A better approach would be to... of course! Implement the command pattern. We could encapsulate 
 the logic of each button into their own *command* object. 
