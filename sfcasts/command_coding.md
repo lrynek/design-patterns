@@ -1,15 +1,17 @@
 # Adding Actions to the Game - Chapter 3
 
-The game development department has asked us to make the game more fun and interactive. 
-Instead of running the match automatically, they want the player to be able to choose 
-what action to perform at the start of each turn. Right now, the only action our game 
-supports is **attack**, so we'll also implement a couple more. **Heal** and **surrender**.
+The game development department asked for a new feature "make the game more interactive". 
+Instead of running battles automatically, they want the player to be able to choose 
+what action to perform at the start of the turn. Right now, our game only 
+supports the **attack** action, so to make it more real we'll **also** add a couple more actions. 
+**Heal** and **Surrender** action.
 
-This is a great opportunity to put into practice the Command Pattern. We'll use it to encapsulate
-the logic of actions into their own class. 
-We'll start by refactoring the attack logic into a command.
+This is a great **opportunity** to put the command pattern in action!
 
-The first step is to identify the code that needs to change. Open up the `GameApplication` class and
+## Applying the Command Pattern
+
+The first step is to identify the code that needs to change and encapsulate it into its own command class. 
+Open up the `GameApplication` class and
 go to the `play()` method. Inside the `while` loop there's a comment telling us where the
 player's turn starts. Select the code right before checking if the player won and cut it, 
 and since we're already here let's write the code we know we need. We know that we want to
@@ -20,15 +22,18 @@ then, say `$playerAction->execute()`.
 ```php
     public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void
     {
-        $playerAction = new AttackCommand();
-        $playerAction->execute();
+        while (true) {
+            ...
+            $playerAction = new AttackCommand();
+            $playerAction->execute();
+        }
     }
 ```
 
-Yes, I know I'm missing some arguments here, the command needs to know about 
-the player object and the AI, but we'll get to that in a moment.
+Yes, I know I'm missing some arguments, to be able to attack we need to know about 
+the player and AI objects, but we'll get to that in a moment.
 
-Ok, it's time to create the `AttackCommand` class. I'll press `Alt+Enter`, then select `Create class`, and
+I'll press `Alt+Enter`, then select `Create class`, and
 I'll put it on the `App\ActionCommand` namespace because `Command` it's already taken by Symfony. I'll leave
 the empty constructor for now, and I'll implement the `execute()` method, then paste!
 
@@ -65,7 +70,7 @@ class AttackCommand
 {
     public function __construct(
         private readonly Character $player,
-        private readonly Character $ai,
+        private readonly Character $opponent,
         private readonly FightResultSet $fightResultSet
     ) {
     }
@@ -74,27 +79,134 @@ class AttackCommand
 
 Next, in the `execute()` method we need to replace the local variables with `$this`.
 
+```php
+class AttackCommand
+{
+    public function execute()
+    {
+        $damage = $this->player->attack();
+        if ($damage === 0) {
+            GameApplication::$printer->printFor($this->player)->exhaustedMessage();
+            $this->fightResultSet->of($this->player)->addExhaustedTurn();
+        }
+
+        $damageDealt = $this->opponent->receiveAttack($damage);
+        $this->fightResultSet->of($this->player)->addDamageDealt($damageDealt);
+
+        GameApplication::$printer->printFor($this->player)->attackMessage($damageDealt);
+        GameApplication::$printer->writeln('');
+        usleep(300000);
+    }
+}
+```
+
 Perfect! Our `AttackCommand` is ready. Now, let's go back to the `GameApplication`.
-Let's add the arguments to the `AttackCommand` object. `$player`, `$ai`, and `$fightResultSet`.
+Let's add the arguments to the `AttackCommand` object. `$player`, `$opponent`, and `$fightResultSet`.
+
+```php
+    public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void
+    {
+        while (true) {
+            $playerAction = new AttackCommand($player, $ai, $fightResultSet);
+            $playerAction->execute();
+        }
+    }
+```
+
 And, scroll down a bit, there's the AI's turn, let's use our command there too.
 
+```php
+    public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void
+    {
+        while (true) {
+            // AI's turn
+            $aiAttackCommand = new AttackCommand($ai, $player, $fightResultSet);
+            $aiAttackCommand->execute();
+        }
+    }
+```
+
 Great! We're ready to give it a try. Let's run the game and play a match, everything
-sould work exactly as before. Exiting, right?!
+should work exactly as before. Exiting, right?!
 
-## Implementing Actions as Commands
+## Implementing More Actions
 
-Ok, the next step is to create the other actions, heal and surrender. Let's start by
-creating an interface for our commands. Call it `ActionCommandInterface` and it will have
-an `execute()` method.
+* Create other actions. Heal and Surrender
+* First create an interface `ActionCommandInterface`
+```php
+interface ActionInterface
+{
+    public function execute(): void;
+}
+```
 
-Next, create a PHP class called `HealCommand` and make it implement the interface. For 
-the `execute()` method, I'll copy-paste some code to save us time, you'll see it in the code
-blocks below the video. It just implements some randomness to determine how much health the
-player will recover.
+* Make `AttackCommand` implement it
+```php
+class AttackCommand implements ActionCommandInterface
+```
 
-And now let's do the same for the surrender action. Create a `SurrenderCommand` class, implement
-the interface, and for the implementation... I'm going to cheat, I'll set the player's health to 0,
-and print a message.
+* Create HealAction class
+* copy-paste implementation
+```php
+class HealCommand implements ActionCommandInterface
+{
+    public function __construct(private readonly Character $player) 
+    {
+    }
+
+    public function execute(): void
+    {
+        $healAmount = Dice::roll(20) + $this->player->getLevel() * 3;
+        $newAmount = $this->player->getCurrentHealth() + $healAmount;
+        $newAmount = min($newAmount, $this->player->getMaxHealth());
+        
+        $this->player->setHealth($newAmount);
+        $this->player->setStamina(Character::MAX_STAMINA);
+
+        GameApplication::$printer->writeln(sprintf(
+            'You healed %d damage',
+            $healAmount
+        ));
+    }
+}
+```
+* Explain constructor:
+  - Benefits of putting the arguments on the constructor instead of on the interface
+  The constructor for this action has fewer arguments than the `AttackCommand`, it only cares about the player.
+  And this is another benefit of putting the arguments in the constructor instead of the interface method
+  because this help us keeping the interface simple and avoid having arguments that are not
+  used by all the commands.
+* Explain `execute()` method: 
+  - Rolling a dice to add some randomness
+  - Set the player's health to the new amount but not more than the max health
+
+* Create SurrenderCommand + interface
+```php
+class SurrenderCommand implements ActionCommandInterface
+```
+* copy-paste implementation
+```php
+class SurrenderCommand implements ActionCommandInterface
+{
+    public function __construct(private readonly Character $player)
+    {
+    }
+
+    public function execute(): void
+    {
+        $this->player->setHealth(0);
+
+        GameApplication::$printer->block('You\'ve surrendered! Better luck next time!');
+    }
+}
+```
+
+* Explanation: For this action I'll cheat a bit because there's no proper way to end the match, so I'll
+set the player's health to 0
+
+* ask player to choose an action
+* add `match` to create command object based on selection
+* try it
 
 Now, let's go back to the `GameApplication` and ask the player to choose an action.
 
