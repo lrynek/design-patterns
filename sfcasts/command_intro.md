@@ -82,6 +82,17 @@ the **right** command instance.
 
 Our code would look like this:
 
+```php
+public function pressButton(string $button)
+{
+    if (!isset($this->commands[$button])) {
+        throw new NotSupportedButtonException($button);
+    }
+    
+    $this->commands[$button]->execute($this->tv);
+}
+```
+
 The `commands` property holds a list of command objects, and if the button name
 is in the list, we call `execute()`.
 
