@@ -11,7 +11,7 @@ index 5e8ca5d..3430f1e 100644
  
          // Static field so we can print messages from anywhere
 diff --git a/src/GameApplication.php b/src/GameApplication.php
-index eab03d6..6fa3075 100644
+index 8216153..77d83c8 100644
 --- a/src/GameApplication.php
 +++ b/src/GameApplication.php
 @@ -6,6 +6,10 @@ use App\ActionCommand\AttackCommand;

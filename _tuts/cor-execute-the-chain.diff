@@ -1,8 +1,8 @@
 diff --git a/src/GameApplication.php b/src/GameApplication.php
-index 6fa3075..834d1bf 100644
+index 77d83c8..3aae9c9 100644
 --- a/src/GameApplication.php
 +++ b/src/GameApplication.php
-@@ -112,6 +112,9 @@ class GameApplication
+@@ -110,6 +110,9 @@ class GameApplication
          $fightResultSet->of($winner)->addVictory();
          $fightResultSet->of($loser)->addDefeat();
  
@@ -10,5 +10,5 @@ index 6fa3075..834d1bf 100644
 +        $winner->addXp($xpBonus);
 +
          $this->notify($fightResultSet);
-     }
  
+         $winner->rest();

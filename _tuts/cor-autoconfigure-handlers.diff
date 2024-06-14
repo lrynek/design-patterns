@@ -43,7 +43,7 @@ index 3430f1e..5e8ca5d 100644
  
          // Static field so we can print messages from anywhere
 diff --git a/src/GameApplication.php b/src/GameApplication.php
-index 834d1bf..c752477 100644
+index 3aae9c9..a2a141a 100644
 --- a/src/GameApplication.php
 +++ b/src/GameApplication.php
 @@ -7,12 +7,11 @@ use App\ActionCommand\HealCommand;

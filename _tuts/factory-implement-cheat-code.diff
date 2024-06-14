@@ -12,7 +12,7 @@ index 6e21c21..69e3702 100644
  
      protected function execute(InputInterface $input, OutputInterface $output): int
 diff --git a/src/GameApplication.php b/src/GameApplication.php
-index c752477..2b2ab89 100644
+index a2a141a..e4fa57f 100644
 --- a/src/GameApplication.php
 +++ b/src/GameApplication.php
 @@ -9,6 +9,7 @@ use App\Builder\CharacterBuilder;
@@ -44,4 +44,4 @@ index c752477..2b2ab89 100644
 +
      public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void
      {
-         $player->rest();
+         while (true) {
