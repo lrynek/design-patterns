@@ -1,4 +1,4 @@
-# Command Pattern Definition
+# Command Pattern
 
 Are you ready for a new design patterns episode? Go grab a cup of coffee and sit tight
 because we'll take a deep dive into the command pattern.

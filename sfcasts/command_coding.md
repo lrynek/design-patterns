@@ -1,8 +1,8 @@
 # Adding Actions to the Game - Chapter 3
 
-The game development department asked for a new feature "make the game more interactive". 
-Instead of running battles automatically, they want the player to be able to choose 
-what action to perform at the start of the turn. Right now, our game only 
+The game development department asked for a new feature "make the game more interactive".
+Stakeholders are funny... So, instead of running battles automatically, they want the player 
+to be able to choose what action to perform at the start of the turn. Right now, our game only 
 supports the **attack** action, so to make it more real we'll **also** add a couple more actions. 
 **Heal** and **Surrender** action.
 

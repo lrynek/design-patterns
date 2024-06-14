@@ -67,4 +67,4 @@ used the **Builder** pattern to create character objects. And, almost at the bot
 we have the implementation of the **Observer** pattern. We can add or remove observers, and
 notify them after a fight finishes.
 
-Next: let's learn about the **Command** pattern and make the game more interactive!
+Next: let's learn about the **Command** pattern and make our game more interactive!
