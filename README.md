@@ -1,7 +1,7 @@
-# Design Patterns for Fun and Proficiency in Symfony! 
+# Design Patterns Episode 2
 
 Well hi there! This repository holds the code and script
-for the [Design Patterns for Fun and Proficiency Tutorials](https://symfonycasts.com/screencast/design-patterns) on SymfonyCasts.
+for the [Design Patterns Episode 2](https://symfonycasts.com/screencast/design-patterns-2) on SymfonyCasts.
 
 ## Setup
 
