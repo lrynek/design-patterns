@@ -5,11 +5,11 @@ we'll continue our journey of building the *greatest* command-line RPG game ever
 And, for this challenging task we'll apply 5 new design patterns. 
 
 We'll learn three new *behavioral* patterns, *Command*, *Chain of Responsibility*,
-and *State*. These patterns help organize code into separate classes that can 
-then interact with each other.
+and *State*. These patterns help organize code into separate classes that can then interact
+with each other.
 
-Also, we'll learn about the *Factory* pattern, which is a *creational* pattern.
-These type of patterns are all about helping instantiate objects, as we've already 
+We'll also learn about the *Factory* pattern, which is a *creational* pattern.
+These type of patterns are all about helping create objects, as we've already 
 seen with the *builder pattern* in episode one. And, as a bonus we'll cover 
 one of my favorites, the *NullObject* pattern.
 
@@ -22,49 +22,50 @@ Before we get into the guts of this tutorial, let's have a quick recap of what
 design patterns are and what we've covered so far.
 
 In a nutshell design patterns are *battle-tested* solutions to software design problems.
-Whenever you face a problem, you can look at the design patterns [catalog](https://java-design-patterns.com/patterns/) 
-and find an appropriate pattern for your use-case. And remember, you can always
-modify the pattern in a way that fits best your application.
+Whenever you face a design problem, you can look at the design patterns [catalog](https://java-design-patterns.com/patterns/) 
+and find the appropriate pattern for your use-case. Remember, you can always
+modify the pattern in a way that fits better in your application.
 
 In episode one we covered five design patterns, *Strategy*, *Builder*, *Observer*,
-*PubSub*, and *Decorator*. Those patterns are still used in our game, but you
+*PubSub*, and *Decorator*. Those patterns are still used in our application, but you
 don't need to understand them to follow this tutorial.
 
 ## Project Setup
 
-Ok, let's get this going! I highly recommend you to download the course code from this page and
-code along with me. I modified the code base in a significant way from episode one,
-so if you're using the previous code, please download this new version. Anyway, after you unzip it, 
-you'll find a `start/` directory, open up the`README` file for the setup details. 
-This one is as easy as it gets, just run:
+Alright, let's get this going! I highly recommend you to download the course code 
+from this page and code along with me. I modified the code base in a significant way 
+from episode one, so if you're using the previous code, please download this new version. 
+Anyway, after you unzip it, you'll find a `start/` directory with the code you see here,
+open up the `README` file for the setup details. This one is as easy as it gets, spin over
+to your terminal and run:
 
 ```terminal
 composer install
 ```
 
-And, to play the game run:
+After the installation finishes we're ready to play our game. Just run:
 
 ```terminal
 php bin/console app:game:play
 ```
 
 We have a few characters to choose from, I'll be a fighter. Sweet! We won!
-There were 4 rounds of fighting, we did 78 points of damage and received 25, and
-earned 30 XP points! Oh, and at the top you can see how the fight developed. This
-is exciting!
+There were 4 rounds of fighting, we did 78 points of damage, received 25, and
+earned 30 XP points! Oh, and at the top you can see how the battle developed. 
+This is exciting!
 
-Let's take a look at how this works. Open up the `GameCommand` class. This is a Symfony command
-that sets things up, this `printer` is a static property that's very convenient for printing stuff
-in any place we need. Then, it asks you which character you want to be, it starts the battle by
-calling `play()` on the `GameApplication` property, and prints the results. So, nothing fancy
-going on here. Now, open up `GameApplication` and find that `play()` method. This takes two 
-character objects, the player, which is "us", and the AI, and it makes them attack each 
-other until one of them wins. 
+Let's take a look at how things work. Open up the `GameCommand` class. This is a Symfony command
+that sets things up, we have this `printer` which is a static property that's very convenient for printing stuff
+from anywhere in our application. Then, it asks you which character you want to be, later it starts
+the battle by calling `play()` on the `GameApplication` property, and then prints the results. 
+so, nothing fancy is going on here. The real logic lives in the `GameApplication` class, open it up and find
+the `play()` method. This takes two character objects, the player, which is "us", and the AI, 
+and it makes them attack each other until one of them wins. 
 
 If we explore this class a bit more we'll find a few places where we've already applied
-some design patterns. Inside the `createCharacter()` method, you can see how we 
-used the *Builder* pattern to create character objects. And, almost at the bottom of the file
-we have the implementation of the *Observer* pattern. We can add or remove observers, and
+some design patterns. Find the `createCharacter()` method, here you can see how we 
+used the *Builder* pattern to create and configure character objects. And, almost at the bottom of the file
+we can see the implementation of the *Observer* pattern. We can add or remove observers, and
 notify them after a fight finishes.
 
 Next: let's learn about the *Command* pattern and make our game more interactive!
