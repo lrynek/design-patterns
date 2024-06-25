@@ -1,18 +1,18 @@
-# Adding Actions to the Game - Chapter 3
+# Adding Actions to the Game
 
 The game development department asked for a new feature "make the game more interactive".
-Stakeholders are funny... So, instead of running battles automatically, they want the player 
-to be able to choose what action to perform at the start of the turn. Right now, our game only 
-supports the **attack** action, so to make it more real we'll **also** add a couple more actions. 
-**Heal** and **Surrender** action.
+Ohh stakeholders they are so funny... So, instead of running battles automatically, they want the player 
+to be able to choose what action to perform at the start of each turn. Right now, our game only 
+supports the *attack* action, so to make it more real we'll also add a couple more actions. 
+*Heal* and *Surrender* action.
 
-This is a great **opportunity** to put the command pattern in action!
+This is a great opportunity to put the *command* pattern in action!
 
 ## Applying the Command Pattern
 
-The first step is to identify the code that needs to change and encapsulate it into its own command class. 
-Open up the `GameApplication` class and
-go to the `play()` method. Inside the `while` loop there's a comment telling us where the
+The first step is to identify the code that needs to change and encapsulate it into
+its own command class. Open up the `GameApplication` class and go to the `play()` method.
+Inside the `while` loop there's a comment telling us where the
 player's turn starts. Select the code right before checking if the player won and cut it, 
 and since we're already here let's write the code we know we need. We know that we want to
 instantiate an `AttackCommand` object and call `execute()` on it, so let's do that. Create a 
@@ -24,7 +24,7 @@ then, say `$playerAction->execute()`.
     {
         while (true) {
             ...
-            $playerAction = new AttackCommand();
+            $playerAction = new AttackCommand($player, $ai, $fightResultSet);
             $playerAction->execute();
         }
     }
@@ -59,7 +59,7 @@ Perfect! It's now obvious what arguments we're missing, the `$player`, `$ai`, an
 So now, the next question is, should we pass them to the method or to the constructor? Usually, 
 the `execute()` method of the command pattern does not have any arguments because we want to
 decouple the instantiation from the execution. By setting them to the constructor 
-we're decoupling **when** this command is going to be run from when it's created. Also, 
+we're decoupling *when* this command is going to be run from when it's created. Also, 
 it will make our life easier when implementing the undo operation. The arguments won't have
 to be available at that specific moment.
 
@@ -129,7 +129,7 @@ And, scroll down a bit, there's the AI's turn, let's use our command there too.
 Great! We're ready to give it a try. Let's run the game and play a match, everything
 should work exactly as before. Exiting, right?!
 
-## Implementing More Actions
+## Implementing more Actions
 
 * Create other actions. Heal and Surrender
 * First create an interface `ActionCommandInterface`
@@ -146,31 +146,9 @@ class AttackCommand implements ActionCommandInterface
 ```
 
 * Create HealAction class
-* copy-paste implementation
-```php
-class HealCommand implements ActionCommandInterface
-{
-    public function __construct(private readonly Character $player) 
-    {
-    }
+* copy-paste files from the `tutorial` directory
 
-    public function execute(): void
-    {
-        $healAmount = Dice::roll(20) + $this->player->getLevel() * 3;
-        $newAmount = $this->player->getCurrentHealth() + $healAmount;
-        $newAmount = min($newAmount, $this->player->getMaxHealth());
-        
-        $this->player->setHealth($newAmount);
-        $this->player->setStamina(Character::MAX_STAMINA);
-
-        GameApplication::$printer->writeln(sprintf(
-            'You healed %d damage',
-            $healAmount
-        ));
-    }
-}
-```
-* Explain constructor:
+* Heal Explain constructor:
   - Benefits of putting the arguments on the constructor instead of on the interface
   The constructor for this action has fewer arguments than the `AttackCommand`, it only cares about the player.
   And this is another benefit of putting the arguments in the constructor instead of the interface method
@@ -180,28 +158,7 @@ class HealCommand implements ActionCommandInterface
   - Rolling a dice to add some randomness
   - Set the player's health to the new amount but not more than the max health
 
-* Create SurrenderCommand + interface
-```php
-class SurrenderCommand implements ActionCommandInterface
-```
-* copy-paste implementation
-```php
-class SurrenderCommand implements ActionCommandInterface
-{
-    public function __construct(private readonly Character $player)
-    {
-    }
-
-    public function execute(): void
-    {
-        $this->player->setHealth(0);
-
-        GameApplication::$printer->block('You\'ve surrendered! Better luck next time!');
-    }
-}
-```
-
-* Explanation: For this action I'll cheat a bit because there's no proper way to end the match, so I'll
+* Surrender Explanation: For this action I'll cheat a bit because there's no proper way to end the match, so I'll
 set the player's health to 0
 
 * ask player to choose an action
@@ -232,3 +189,6 @@ Perfect! It's time of the truth! Let's play a few rounds.
 `bin/console app:game:play`
 
 Sweet! it's asking us what to do
+
+## Undo Feature
+Explain feature 
