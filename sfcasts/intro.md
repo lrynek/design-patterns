@@ -12,7 +12,7 @@ For more information about design patterns, check out the first chapter of the e
 
 Before we dive in, let's recap what design patterns are and what we've covered so far.
 
-In a nutshell, design patterns are *battle-tested* solutions to software design problems. When you *encounter* a problem, you can look at the design patterns [catalog](https://java-design-patterns.com/patterns/) and find th ideal pattern for your use case. And *remember*, you can always modify the pattern in a way that will best fit your application.
+In a nutshell, design patterns are *battle-tested* solutions to software design problems. When you *encounter* a problem, you can look at the design patterns [catalog](https://java-design-patterns.com/patterns/) and find the ideal pattern for your use case. And *remember*, you can always modify the pattern in a way that will best fit your application.
 
 In episode one, we covered five design patterns: *Strategy*, *Builder*, *Observer*, *PubSub*, and *Decorator*. We're still using those patterns in our game, but you don't need to understand them to follow this tutorial.
 
