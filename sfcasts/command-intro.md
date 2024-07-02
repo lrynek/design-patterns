@@ -14,7 +14,7 @@ The *official* definition of command pattern says that they "*encapsulate* a
 request as a stand-alone object, allowing parameterization of clients with
 different requests, queueing or logging requests, and support undoable operations."
 
-Um... *what*?. Okay, let's try that again with a less confusing definition.
+Um... *what*? Okay, let's try that again with a less confusing definition.
 "The *command pattern* encapsulates a task into an object, decoupling what it does,
 how it does it, and when it gets done. It also makes *undoing* actions
 easy because it can keep a history of changes."
