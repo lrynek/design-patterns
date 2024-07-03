@@ -43,7 +43,7 @@ to `opponent`.
 Perfect! Our `AttackCommand` is ready. Now, let's go back to `GameApplication` and we'll
 do the same thing for the AI's turn. Scroll down a bit until you see the comment "AI's turn",
 select all that code and replace with `$aiAction = new AttackCommand()` where the player argument
-is `$ai`, the opponent is `$player` and `$fightResultSet` at the end. Then, say `$aiAction->execute()`
+is `$ai`, the opponent is `$player` and `$fightResultSet` at the end. Then, write `$aiAction->execute()`.
 
 Phew, finally! We're ready to give it a try. Spin over to your terminal and run:
 
