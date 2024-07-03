@@ -14,7 +14,7 @@ The *official* definition of command pattern says that they "*encapsulate* a
 request as a stand-alone object, allowing parameterization of clients with
 different requests, queueing or logging requests, and support undoable operations."
 
-Um... *what*?. Okay, let's try that again with a less confusing definition.
+Um... *what*? Okay, let's try that again with a less confusing definition.
 "The *command pattern* encapsulates a task into an object, decoupling what it does,
 how it does it, and when it gets done. It also makes *undoing* actions
 easy because it can keep a history of changes."
@@ -88,6 +88,13 @@ in our `pressButton()` method, we would just call `execute()` on the command we 
 It looks something like this:
 
 ```php
+/**
+ * @param array<string, ButtonCommandInterface> $commands
+ */
+public function __construct(private array $commands)
+{
+}
+
 public function pressButton(string $button)
 {
     if (!isset($this->commands[$button])) {
@@ -98,13 +105,22 @@ public function pressButton(string $button)
 }
 ```
 
-The `commands` property holds a list of command objects and, if it finds the
-button name in that list, it calls `execute()`. Pretty handy! 
-But wait... How do we *instantiate* the commands?
+The `commands` property is an array of button command objects, keyed by a string representation
+of the button. When calling `pressButton()`, we look for the passed button name in this array
+and call `execute()`. Pretty handy!
 
-We can create objects in several ways, but my *favorite* way is
-with the *factory* pattern. In our example, we *could* introduce a `CommandFactory` and 
-delegate all of the instantiation logic to it, but we won't go into that right now.
+Instantiating this *TV remote* object (and the button commands), then *using* it, would look
+something like this:
+
+```php
+$remote = new Remote([
+    'turnOn' => new TurnOnCommand(),
+    'turnOff' => new TurnOffCommand(),
+    'mute' => new MuteCommand(),
+]);
+
+$remote->pressButton('mute'); // executes MuteCommand logic
+```
 
 The command pattern is *great*, and we can already see how helpful it can be.
 We can add or remove buttons without touching the code in our `pressButton()` method,
