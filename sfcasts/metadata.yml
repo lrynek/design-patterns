@@ -2,3 +2,5 @@ chapters:
     - intro
     - command-intro
     - command-coding
+    - command-actions
+    - command-undo
