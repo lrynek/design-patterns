@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Builder\CharacterBuilder;
+use App\Character\Character;
 use App\Observer\GameObserverInterface;
 use App\Printer\MessagePrinter;
 
