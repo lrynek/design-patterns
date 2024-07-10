@@ -126,6 +126,6 @@ The command pattern is *great*, and we can already see how helpful it can be.
 We can add or remove buttons without touching the code in our `pressButton()` method,
 and all of the logic is encapsulated into separate classes, making our
 code easier to maintain and reuse. *And*, as a bonus, we've successfully applied
-the *Open-Close* principle. This method is now *open* for extension, but *closed* for modification.
+the *Open/Close* principle. This method is now *open* for extension, but *closed* for modification.
 
 Next: Let's see the command pattern in action and implement it in our application!
