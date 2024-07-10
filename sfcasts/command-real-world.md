@@ -33,15 +33,10 @@ Pros:
 - And, it leverages the *Single Responsibility Principle* and the *Open/Closed Principle*.
 
 Cons:
-- Increased Complexity: Implementing the Command Pattern can introduce a significant amount of additional
-code and classes. Each command requires a separate class, which can lead to a
-proliferation of small classes in larger applications.
+- Increases code complexity because we're introducing a new layer. And as each command
+requires a separate class, it can introduce a significant amount of additional classes.
 
-- Overkill for Simple Scenarios: In scenarios where the behavior being encapsulated is simple
-- or infrequently changed, the Command Pattern might be over-engineering. It can add
-- unnecessary complexity without providing significant benefits.
-
-Alright! It's time to reward the player after a battle, but there are
-different kinds of rewards and only one should apply. We'll implement
+Alright! It's time to reward the player after finishing a battle, but there are
+different kinds of rewards and only one should apply. We'll leverage
 the *chain of responsibility* pattern to do so. 
 That's next!
