@@ -51,8 +51,8 @@ php bin/console app:game:play
 ```
 
 We have a few characters to choose from. I'll be a fighter. And... *sweet*!
-We won! There were four rounds of fighting, we did 78 points of damage, *received*
-25, and earned 30 XP points! *Nice*. And up here, you can see how the fight
+We won! There were four rounds of fighting, we did 79 points of damage, *received*
+0, and earned 30 XP points! *Nice*. And up here, you can see how the fight
 developed. This is exciting!
 
 So... how does this work? Open `GameCommand.php`. This is a Symfony command that
