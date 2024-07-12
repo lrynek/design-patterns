@@ -25,21 +25,16 @@ by PHP attributes because it's only purpose was to tag the class as a message ha
 
 ## Conclusion
 
-Okay, *that's* the Command pattern! Let's recap the pros and cons:
+Okay, *that's* the Command pattern! Let's recap what it does:
 
-Pros:
+It is a great way to encapsulate methods into objects. ✅
+Allow decoupling the *what* from the *how* and *when*. ✅
+Support *undoable* operations. ✅
+And, it leverages the *Single Responsibility Principle* and the *Open/Closed Principle*. ✅
 
-- The Command pattern is a great way to encapsulate methods into objects.
-- Allow us to decouple the *what* from the *how* and *when*.
-- It's handy when you need to support *undoable* operations.
-- It's well-accepted by libraries and frameworks.
-- And it leverages the *Single Responsibility Principle* and the *Open/Closed Principle*.
-
-Cons:
-
-- It increases code complexity because we're introducing a new layer. And, as each
-  command requires a separate class, it can introduce a *significant* number of
-  additional classes.
+But, it increases code complexity because we're introducing a new layer. ❌
+And, as each command requires a separate class, it can introduce a *significant*
+number of additional classes. ❌
 
 All right! It's time to *reward* players after a hard-fought battle! *But* there
 are different kinds of rewards and only *one* should apply. To do that, we'll
