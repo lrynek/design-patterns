@@ -2,7 +2,7 @@
 
 ¡Hola amigos! ¡Bienvenidos de nuevo al segundo episodio de nuestra serie Patrones de diseño! En este episodio, continuaremos nuestro viaje para construir el mejor juego de rol de línea de comandos de la historia. Para ello, aplicaremos no uno, ni dos, sino cinco nuevos patrones de diseño.
 
-Aprenderemos tres nuevos patrones de comportamiento: Mando, Cadena de Responsabilidad y Estado. Estos patrones ayudan a organizar el código en clases separadas que luego pueden interactuar entre sí.
+Aprenderemos tres nuevos patrones de comportamiento: Comando, Cadena de Responsabilidad y Estado. Estos patrones ayudan a organizar el código en clases separadas que luego pueden interactuar entre sí.
 
 También conoceremos el patrón Fábrica, que es un patrón de creación. Este tipo de patrón sirve para ayudar a instanciar objetos, igual que el patrón Constructor del episodio uno. Y, como extra, trataremos uno de mis favoritos: el patrón NullObject.
 
@@ -12,7 +12,7 @@ Para más información sobre los tipos de patrones de diseño, consulta el prime
 
 Antes de entrar en materia, recapitulemos qué son los patrones de diseño y lo que hemos tratado hasta ahora.
 
-En pocas palabras, los patrones de diseño son soluciones probadas en batalla a problemas de diseño de software. Cuando te encuentres con un problema, puedes consultar el [catálogo] de patrones de diseño (https://java-design-patterns.com/patterns/) y encontrar el patrón ideal para tu caso de uso. Y recuerda que siempre puedes modificar el patrón de la forma que mejor se adapte a tu aplicación.
+En pocas palabras, los patrones de diseño son soluciones probadas en batalla a problemas de diseño de software. Cuando te encuentres con un problema, puedes consultar el [catálogo](https://java-design-patterns.com/patterns/) de patrones de diseño y encontrar el patrón ideal para tu caso de uso. Y recuerda que siempre puedes modificar el patrón de la forma que mejor se adapte a tu aplicación.
 
 En el episodio uno, cubrimos cinco patrones de diseño: Estrategia, Constructor, Observador, PubSub y Decorador. Seguimos utilizando esos patrones en nuestro juego, pero no es necesario que los entiendas para seguir este tutorial.
 
