@@ -58,20 +58,33 @@ developed. This is exciting!
 So... how does this work? Open `GameCommand.php`. This is a Symfony command that
 sets things up, initializes this global `$printer` object, which is very
 convenient for printing information wherever we need it, and then it asks us
-which character we want to be. Below, it starts the battle by calling `play()`
-on the `GameApplication` property, prints the results, and allows us to keep
-playing.
+which character we want to be. 
+
+[[[ code('7d8341bfb2') ]]]
+
+Below, it starts the battle by calling `play()`on the `GameApplication` property,
+prints the results, and allows us to keep playing.
+
+[[[ code('fc81858298') ]]]
 
 *So*, this isn't super fancy. All the heavy lifting happens in the `play()`
 method of `GameApplication`. If you hold "CMD" + "B" to go to the definition, we
 can see that this method takes two character objects - the *player*, which is
 *us*, and the AI - and it makes them attack each other until one of them wins.
 
+[[[ code('98e8471a98') ]]]
+
 If we explore this class a bit more, we'll find a few places where we've already
 applied some design patterns. If you search for the `createCharacter()` method,
 you can see how we used the *Builder* pattern to create and configure character
-objects. And, *way* down here, we're using the *Observer* pattern, adding or
-removing observers, and notifying them after the fight is finished.
+objects. 
+
+[[[ code('db964ebbb5') ]]]
+
+And, *way* down here, we're using the *Observer* pattern, adding or removing observers,
+and notifying them after the fight is finished.
+
+[[[ code('01fb44ac6b') ]]]
 
 All right! It's time to learn about the *Command* pattern and make our game more
 interactive. That's *next*.
