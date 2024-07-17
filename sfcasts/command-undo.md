@@ -13,7 +13,7 @@ Open that up and, below `execute()`, write `public function undo();` with *no* a
 Next, we need to *implement* it in all of our commands. Let's start
 with `AttackCommand`. Open that and, up here at the top, we can see that PHPStorm
 is already mad at us because it's missing the `undo()` method. To implement that,
-click on the interface and press "Alt" + "Enter". Select "Add method stubs",
+click on the interface and press "Ctrl" + "Enter". Select "Add method stubs",
 and since the `undo()` method is already selected, we can just press "Enter".
 At the bottom, we can see that our method was added. We can leave
 our "TODO" comment here for now because we still need to figure out what data
@@ -31,8 +31,8 @@ write `$this->stamina = $this->player->getStamina()`, and down here,
 write `$this->damageDealt = $damageDealt`. Perfect!
 
 When we undo an attack, we also need to restore the *opponent's* health. To do that,
-say `$this->opponent->setHealth($this->opponent->getCurrentHealth() + $this->damageDealt)`.
-And to restore the player's *stamina*,
+write `$this->opponent->setHealth($this->opponent->getCurrentHealth() + $this->damageDealt)`.
+Now, we need to restore the player's *stamina*,
 write `$this->player->setStamina($this->stamina)`. Oh, and we almost forgot to
 revert the `fightResultSet`! We don't want to report incorrect data. To revert
 the damage *dealt*,
@@ -42,7 +42,7 @@ write `$this->fightResultSet->of($this->opponent)->removeDamageReceived($this->d
 Great! This class is *ready*. Let's keep going!
 
 Open `HealCommand`, and we'll do the same thing here - add the `undo()`
-method, click on the name of the interface, and press "Alt" + "Enter". Now we
+method, click on the name of the interface, and press "Ctrl" + "Enter" and add the stub. Now we
 can decide what data we need to remember. This command is simpler - it just
 changes the player's health and stamina - so let's store their starting values.
 At the top of the class, add both properties: `private int $currentHealth`
@@ -56,7 +56,7 @@ player properties, so write `$this->player->setHealth($this->currentHealth)`
 and `$this->player->setStamina($this->stamina)`. Another command *done*! Nice!
 
 Finally, open `SurrenderCommand` and do this one more time - add
-the `undo()` method, and hit "Alt" + "Enter". We can leave this method empty
+the `undo()` method, and hit "Ctrl" + "Enter". We can leave this method empty
 because it would be silly to revert a surrender action.
 
 All right! It's time to ask the player if they want to revert the last action in
