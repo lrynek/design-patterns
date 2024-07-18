@@ -15,7 +15,7 @@ index dd15ac4..11e082a 100644
  {
      private XpBonusHandlerInterface $next;
 diff --git a/src/ChainHandler/LevelHandler.php b/src/ChainHandler/LevelHandler.php
-index b1a2b6e..f368fcb 100644
+index d482f35..f368fcb 100644
 --- a/src/ChainHandler/LevelHandler.php
 +++ b/src/ChainHandler/LevelHandler.php
 @@ -5,7 +5,11 @@ namespace App\ChainHandler;
@@ -30,28 +30,6 @@ index b1a2b6e..f368fcb 100644
  class LevelHandler implements XpBonusHandlerInterface
  {
      private XpBonusHandlerInterface $next;
-@@ -18,8 +22,6 @@ class LevelHandler implements XpBonusHandlerInterface
-     public function handle(Character $player, FightResult $fightResult): int
-     {
-         if ($player->getLevel() === 1) {
--            GameApplication::$printer->info('You earned extra XP thanks to the Level handler!');
--
-             return 25;
-         }
- 
-diff --git a/src/ChainHandler/OnFireHandler.php b/src/ChainHandler/OnFireHandler.php
-index f7d8f68..672cef8 100644
---- a/src/ChainHandler/OnFireHandler.php
-+++ b/src/ChainHandler/OnFireHandler.php
-@@ -18,8 +18,6 @@ class OnFireHandler implements XpBonusHandlerInterface
-     public function handle(Character $player, FightResult $fightResult): int
-     {
-         if ($fightResult->getWinStreak() >= 3) {
--            GameApplication::$printer->info('You earned extra XP thanks to the OnFire handler!');
--
-             return 25;
-         }
- 
 diff --git a/src/GameApplication.php b/src/GameApplication.php
 index a00fdb1..a2a141a 100644
 --- a/src/GameApplication.php

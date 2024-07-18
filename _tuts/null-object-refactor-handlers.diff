@@ -28,10 +28,10 @@ index 8302aff..dd15ac4 100644
  
      public function setNext(XpBonusHandlerInterface $next): void
 diff --git a/src/ChainHandler/LevelHandler.php b/src/ChainHandler/LevelHandler.php
-index c50e13c..b1a2b6e 100644
+index 4857957..d482f35 100644
 --- a/src/ChainHandler/LevelHandler.php
 +++ b/src/ChainHandler/LevelHandler.php
-@@ -10,6 +10,11 @@ class LevelHandler implements XpBonusHandlerInterface
+@@ -10,17 +10,18 @@ class LevelHandler implements XpBonusHandlerInterface
  {
      private XpBonusHandlerInterface $next;
  
@@ -43,7 +43,6 @@ index c50e13c..b1a2b6e 100644
      public function handle(Character $player, FightResult $fightResult): int
      {
          if ($player->getLevel() === 1) {
-@@ -18,11 +23,7 @@ class LevelHandler implements XpBonusHandlerInterface
              return 25;
          }
  
@@ -57,10 +56,10 @@ index c50e13c..b1a2b6e 100644
  
      public function setNext(XpBonusHandlerInterface $next): void
 diff --git a/src/ChainHandler/OnFireHandler.php b/src/ChainHandler/OnFireHandler.php
-index 1a30c6d..f7d8f68 100644
+index 8e838bd..672cef8 100644
 --- a/src/ChainHandler/OnFireHandler.php
 +++ b/src/ChainHandler/OnFireHandler.php
-@@ -10,6 +10,11 @@ class OnFireHandler implements XpBonusHandlerInterface
+@@ -10,17 +10,18 @@ class OnFireHandler implements XpBonusHandlerInterface
  {
      private XpBonusHandlerInterface $next;
  
@@ -72,7 +71,6 @@ index 1a30c6d..f7d8f68 100644
      public function handle(Character $player, FightResult $fightResult): int
      {
          if ($fightResult->getWinStreak() >= 3) {
-@@ -18,11 +23,7 @@ class OnFireHandler implements XpBonusHandlerInterface
              return 25;
          }
  

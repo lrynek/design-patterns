@@ -1,9 +1,9 @@
 diff --git a/src/ChainHandler/LevelHandler.php b/src/ChainHandler/LevelHandler.php
 new file mode 100644
-index 0000000..c50e13c
+index 0000000..4857957
 --- /dev/null
 +++ b/src/ChainHandler/LevelHandler.php
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,30 @@
 +<?php
 +
 +namespace App\ChainHandler;
@@ -19,8 +19,6 @@ index 0000000..c50e13c
 +    public function handle(Character $player, FightResult $fightResult): int
 +    {
 +        if ($player->getLevel() === 1) {
-+            GameApplication::$printer->info('You earned extra XP thanks to the Level handler!');
-+
 +            return 25;
 +        }
 +
@@ -38,10 +36,10 @@ index 0000000..c50e13c
 +}
 diff --git a/src/ChainHandler/OnFireHandler.php b/src/ChainHandler/OnFireHandler.php
 new file mode 100644
-index 0000000..1a30c6d
+index 0000000..8e838bd
 --- /dev/null
 +++ b/src/ChainHandler/OnFireHandler.php
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,30 @@
 +<?php
 +
 +namespace App\ChainHandler;
@@ -57,8 +55,6 @@ index 0000000..1a30c6d
 +    public function handle(Character $player, FightResult $fightResult): int
 +    {
 +        if ($fightResult->getWinStreak() >= 3) {
-+            GameApplication::$printer->info('You earned extra XP thanks to the OnFire handler!');
-+
 +            return 25;
 +        }
 +
