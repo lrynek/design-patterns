@@ -1,17 +1,5 @@
-diff --git a/src/Command/GameCommand.php b/src/Command/GameCommand.php
-index 5e8ca5d..3430f1e 100644
---- a/src/Command/GameCommand.php
-+++ b/src/Command/GameCommand.php
-@@ -24,6 +24,7 @@ class GameCommand extends Command
- 
-     protected function execute(InputInterface $input, OutputInterface $output): int
-     {
-+        $this->game->initialize();
-         $io = new SymfonyStyle($input, $output);
- 
-         // Static field so we can print messages from anywhere
 diff --git a/src/GameApplication.php b/src/GameApplication.php
-index 8216153..77d83c8 100644
+index 8216153..9b87ab6 100644
 --- a/src/GameApplication.php
 +++ b/src/GameApplication.php
 @@ -6,6 +6,10 @@ use App\ActionCommand\AttackCommand;
@@ -25,14 +13,16 @@ index 8216153..77d83c8 100644
  use App\Character\Character;
  use App\Observer\GameObserverInterface;
  use App\Printer\MessagePrinter;
-@@ -18,6 +22,19 @@ class GameApplication
+@@ -18,10 +22,20 @@ class GameApplication
  
      /** @var GameObserverInterface[] */
      private array $observers = [];
 +    private XpBonusHandlerInterface $xpBonusHandler;
+ 
+     public function __construct(private readonly CharacterBuilder $characterBuilder)
+     {
+         $this->difficultyContext = new GameDifficultyContext();
 +
-+    public function initialize(): void
-+    {
 +        $casinoHandler = new CasinoHandler();
 +        $levelHandler = new LevelHandler();
 +        $onFireHandler = new OnFireHandler();
@@ -41,7 +31,6 @@ index 8216153..77d83c8 100644
 +        $levelHandler->setNext($onFireHandler);
 +
 +        $this->xpBonusHandler = $casinoHandler;
-+    }
+     }
  
-     public function __construct(private readonly CharacterBuilder $characterBuilder)
-     {
+     public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void

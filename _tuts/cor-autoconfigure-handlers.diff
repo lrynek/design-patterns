@@ -52,20 +52,8 @@ index f7d8f68..672cef8 100644
              return 25;
          }
  
-diff --git a/src/Command/GameCommand.php b/src/Command/GameCommand.php
-index 3430f1e..5e8ca5d 100644
---- a/src/Command/GameCommand.php
-+++ b/src/Command/GameCommand.php
-@@ -24,7 +24,6 @@ class GameCommand extends Command
- 
-     protected function execute(InputInterface $input, OutputInterface $output): int
-     {
--        $this->game->initialize();
-         $io = new SymfonyStyle($input, $output);
- 
-         // Static field so we can print messages from anywhere
 diff --git a/src/GameApplication.php b/src/GameApplication.php
-index 3aae9c9..a2a141a 100644
+index a00fdb1..a2a141a 100644
 --- a/src/GameApplication.php
 +++ b/src/GameApplication.php
 @@ -7,12 +7,11 @@ use App\ActionCommand\HealCommand;
@@ -82,24 +70,12 @@ index 3aae9c9..a2a141a 100644
  
  class GameApplication
  {
-@@ -22,22 +21,12 @@ class GameApplication
+@@ -22,20 +21,13 @@ class GameApplication
  
      /** @var GameObserverInterface[] */
      private array $observers = [];
 -    private XpBonusHandlerInterface $xpBonusHandler;
  
--    public function initialize(): void
--    {
--        $casinoHandler = new CasinoHandler();
--        $levelHandler = new LevelHandler();
--        $onFireHandler = new OnFireHandler();
--
--        $casinoHandler->setNext($levelHandler);
--        $levelHandler->setNext($onFireHandler);
--
--        $this->xpBonusHandler = $casinoHandler;
--    }
--
 -    public function __construct(private readonly CharacterBuilder $characterBuilder)
 -    {
 +    public function __construct(
@@ -108,5 +84,15 @@ index 3aae9c9..a2a141a 100644
 +        private readonly CharacterBuilder $characterBuilder
 +    ) {
          $this->difficultyContext = new GameDifficultyContext();
+-
+-        $casinoHandler = new CasinoHandler();
+-        $levelHandler = new LevelHandler();
+-        $onFireHandler = new OnFireHandler();
+-
+-        $casinoHandler->setNext($levelHandler);
+-        $levelHandler->setNext($onFireHandler);
+-
+-        $this->xpBonusHandler = $casinoHandler;
      }
  
+     public function play(Character $player, Character $ai, FightResultSet $fightResultSet): void
