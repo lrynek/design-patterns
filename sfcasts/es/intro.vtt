@@ -1,0 +1,216 @@
+WEBVTT
+
+00:00:00.096 --> 00:00:04.126 align:middle
+¡Hola amigos!
+
+00:00:04.506 --> 00:00:07.716 align:middle
+¡Bienvenidos de nuevo al segundo episodio
+de nuestra serie Patrones de diseño!
+
+00:00:08.076 --> 00:00:10.246 align:middle
+En este episodio, continuaremos nuestro viaje
+
+00:00:10.246 --> 00:00:13.426 align:middle
+para construir el mejor juego de rol
+de línea de comandos de la historia
+
+00:00:13.426 --> 00:00:18.506 align:middle
+Para ello, aplicaremos no uno, ni dos,
+sino cinco nuevos patrones de diseño.
+
+00:00:18.696 --> 00:00:24.136 align:middle
+Aprenderemos tres nuevos patrones de comportamiento:
+Mando, Cadena de Responsabilidad y Estado.
+
+00:00:24.656 --> 00:00:29.306 align:middle
+Estos patrones ayudan a organizar el código en clases
+separadas que luego pueden interactuar entre sí.
+
+00:00:29.856 --> 00:00:33.336 align:middle
+También conoceremos el patrón
+Fábrica, que es un patrón de creación.
+
+00:00:33.926 --> 00:00:37.366 align:middle
+Este tipo de patrón consiste
+en ayudar a instanciar objetos,
+
+00:00:37.616 --> 00:00:39.726 align:middle
+igual que el patrón
+constructor del episodio uno.
+
+00:00:40.166 --> 00:00:44.716 align:middle
+Y, como extra, trataremos uno de mis
+favoritos: el patrón NullObject.
+
+00:00:44.716 --> 00:00:47.676 align:middle
+Para más información sobre los
+tipos de patrones de diseño, consulta
+
+00:00:47.836 --> 00:00:50.056 align:middle
+el primer capítulo del episodio uno.
+
+00:00:50.846 --> 00:00:55.526 align:middle
+Antes de entrar en materia, recapitulemos qué son los
+patrones de diseño y lo que hemos visto hasta ahora.
+
+00:00:56.146 --> 00:01:01.226 align:middle
+En pocas palabras, los patrones de diseño son soluciones
+probadas en batalla a problemas de diseño de software.
+
+00:01:01.716 --> 00:01:05.666 align:middle
+Cuando te encuentres con un problema, puedes
+consultar el catálogo de patrones de diseño
+
+00:01:05.666 --> 00:01:08.576 align:middle
+y encontrar el patrón
+ideal para tu caso de uso.
+
+00:01:08.576 --> 00:01:13.196 align:middle
+Y recuerda que siempre puedes modificar el patrón
+de la forma que mejor se adapte a tu aplicación.
+
+00:01:13.706 --> 00:01:17.536 align:middle
+En el episodio uno, cubrimos cinco
+patrones de diseño: Estrategia,
+
+00:01:17.826 --> 00:01:21.026 align:middle
+Constructor, Observador, PubSub y Decorador.
+
+00:01:21.656 --> 00:01:24.256 align:middle
+Seguimos utilizando esos patrones en
+nuestro juego, pero no es necesario
+
+00:01:24.256 --> 00:01:26.336 align:middle
+que los entiendas para seguir este tutorial.
+
+00:01:27.156 --> 00:01:28.576 align:middle
+Bien, ¡manos a la obra!
+
+00:01:28.936 --> 00:01:32.966 align:middle
+Te recomiendo encarecidamente que descargues el código
+del curso desde esta página y codifiques conmigo.
+
+00:01:33.486 --> 00:01:37.566 align:middle
+El código base ha cambiado bastante desde el
+episodio uno, así que si utilizas el código
+
+00:01:37.566 --> 00:01:40.586 align:middle
+de ese tutorial, asegúrate de
+descargar esta nueva versión.
+
+00:01:40.586 --> 00:01:45.296 align:middle
+Después de descomprimirlo, encontrarás un
+directorio start/ con el mismo código que ves aquí.
+
+00:01:45.756 --> 00:01:48.376 align:middle
+El archivo README.md contiene todos los
+detalles de configuración que necesitarás.
+
+00:01:48.956 --> 00:01:50.606 align:middle
+Ésta no puede ser más fácil.
+
+00:01:51.006 --> 00:01:55.286 align:middle
+Ejecuta composer install
+y, para jugar, ejecuta:
+
+00:01:55.286 --> 00:02:00.896 align:middle
+php bin/console app:game:play Tenemos
+unos cuantos personajes para elegir.
+
+00:02:01.186 --> 00:02:02.146 align:middle
+Yo seré un luchador.
+
+00:02:04.546 --> 00:02:06.246 align:middle
+Y... ¡qué bien!
+
+00:02:06.426 --> 00:02:11.346 align:middle
+¡Ganamos! Hubo cuatro rondas de
+lucha, hicimos 79 puntos de daño,
+
+00:02:11.506 --> 00:02:14.826 align:middle
+recibimos 0, ¡y ganamos 30 puntos de XP!
+
+00:02:14.826 --> 00:02:18.016 align:middle
+Estupendo. Y aquí arriba, puedes
+ver cómo se desarrolló el combate.
+
+00:02:18.386 --> 00:02:19.156 align:middle
+¡Esto sí que es emocionante!
+
+00:02:19.156 --> 00:02:21.406 align:middle
+Entonces... ¿cómo funciona esto?
+
+00:02:21.846 --> 00:02:23.546 align:middle
+Abre GameCommand.php.
+
+00:02:23.546 --> 00:02:29.286 align:middle
+Se trata de un comando de Symfony que prepara las
+cosas, inicializa este objeto global $printer,
+
+00:02:29.576 --> 00:02:32.546 align:middle
+muy práctico para imprimir
+información donde la necesitemos,
+
+00:02:32.956 --> 00:02:35.406 align:middle
+y luego nos pregunta qué personaje
+queremos ser. A continuación, inicia
+
+00:02:36.256 --> 00:02:40.676 align:middle
+la batalla llamando a play()en
+la propiedad GameApplication,
+
+00:02:40.996 --> 00:02:43.586 align:middle
+imprime los resultados y
+nos permite seguir jugando.
+
+00:02:43.586 --> 00:02:45.846 align:middle
+Esto no es nada del otro mundo.
+
+00:02:46.206 --> 00:02:49.536 align:middle
+Todo el trabajo pesado ocurre en el
+método play() de GameApplication.
+
+00:02:50.016 --> 00:02:52.466 align:middle
+Si mantienes pulsado "CMD" +
+"B" para ir a la definición,
+
+00:02:52.726 --> 00:02:58.206 align:middle
+podemos ver que este método toma dos objetos
+personaje -el jugador, que somos nosotros, y la IA-
+
+00:02:58.206 --> 00:03:01.846 align:middle
+y hace que se ataquen mutuamente
+hasta que uno de ellos gane.
+
+00:03:03.376 --> 00:03:06.626 align:middle
+Si exploramos un poco más esta clase,
+encontraremos algunos lugares en
+
+00:03:06.626 --> 00:03:09.016 align:middle
+los que ya hemos aplicado
+algunos patrones de diseño.
+
+00:03:09.466 --> 00:03:14.116 align:middle
+Si buscas el método createCharacter(), podrás
+ver cómo hemos utilizado el patrón Constructor
+
+00:03:14.116 --> 00:03:16.546 align:middle
+para crear y configurar objetos personaje.
+
+00:03:18.146 --> 00:03:24.146 align:middle
+Y, aquí abajo, estamos utilizando el patrón
+Observador, añadiendo o eliminando observadores,
+
+00:03:24.146 --> 00:03:26.576 align:middle
+y notificándoles una vez
+finalizado el combate.
+
+00:03:27.596 --> 00:03:27.976 align:middle
+¡Muy bien!
+
+00:03:27.976 --> 00:03:32.076 align:middle
+Es hora de conocer el patrón Comando y
+hacer que nuestro juego sea más interactivo.
+
+00:03:32.426 --> 00:03:33.136 align:middle
+Eso a continuación.
