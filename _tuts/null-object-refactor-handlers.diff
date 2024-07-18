@@ -1,5 +1,5 @@
 diff --git a/src/ChainHandler/CasinoHandler.php b/src/ChainHandler/CasinoHandler.php
-index 9cdb178..0cd693a 100644
+index 8302aff..dd15ac4 100644
 --- a/src/ChainHandler/CasinoHandler.php
 +++ b/src/ChainHandler/CasinoHandler.php
 @@ -11,6 +11,11 @@ class CasinoHandler implements XpBonusHandlerInterface
@@ -14,7 +14,7 @@ index 9cdb178..0cd693a 100644
      public function handle(Character $player, FightResult $fightResult): int
      {
          $dice1 = Dice::roll(6);
-@@ -28,11 +33,7 @@ class CasinoHandler implements XpBonusHandlerInterface
+@@ -26,11 +31,7 @@ class CasinoHandler implements XpBonusHandlerInterface
              return 25;
          }
  
