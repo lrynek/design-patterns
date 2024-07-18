@@ -1,5 +1,5 @@
 diff --git a/src/ChainHandler/CasinoHandler.php b/src/ChainHandler/CasinoHandler.php
-index dd15ac4..11e082a 100644
+index b7e0984..73bbb9c 100644
 --- a/src/ChainHandler/CasinoHandler.php
 +++ b/src/ChainHandler/CasinoHandler.php
 @@ -6,7 +6,11 @@ use App\Character\Character;
@@ -15,7 +15,7 @@ index dd15ac4..11e082a 100644
  {
      private XpBonusHandlerInterface $next;
 diff --git a/src/ChainHandler/LevelHandler.php b/src/ChainHandler/LevelHandler.php
-index d482f35..f368fcb 100644
+index 9d150a3..c51ab92 100644
 --- a/src/ChainHandler/LevelHandler.php
 +++ b/src/ChainHandler/LevelHandler.php
 @@ -5,7 +5,11 @@ namespace App\ChainHandler;

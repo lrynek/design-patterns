@@ -1,5 +1,5 @@
 diff --git a/src/ChainHandler/CasinoHandler.php b/src/ChainHandler/CasinoHandler.php
-index 8302aff..dd15ac4 100644
+index 50c5aed..b7e0984 100644
 --- a/src/ChainHandler/CasinoHandler.php
 +++ b/src/ChainHandler/CasinoHandler.php
 @@ -11,6 +11,11 @@ class CasinoHandler implements XpBonusHandlerInterface
@@ -14,7 +14,7 @@ index 8302aff..dd15ac4 100644
      public function handle(Character $player, FightResult $fightResult): int
      {
          $dice1 = Dice::roll(6);
-@@ -26,11 +31,7 @@ class CasinoHandler implements XpBonusHandlerInterface
+@@ -28,11 +33,7 @@ class CasinoHandler implements XpBonusHandlerInterface
              return 25;
          }
  
@@ -28,10 +28,10 @@ index 8302aff..dd15ac4 100644
  
      public function setNext(XpBonusHandlerInterface $next): void
 diff --git a/src/ChainHandler/LevelHandler.php b/src/ChainHandler/LevelHandler.php
-index 4857957..d482f35 100644
+index e4559e0..9d150a3 100644
 --- a/src/ChainHandler/LevelHandler.php
 +++ b/src/ChainHandler/LevelHandler.php
-@@ -10,17 +10,18 @@ class LevelHandler implements XpBonusHandlerInterface
+@@ -10,6 +10,11 @@ class LevelHandler implements XpBonusHandlerInterface
  {
      private XpBonusHandlerInterface $next;
  
@@ -43,6 +43,7 @@ index 4857957..d482f35 100644
      public function handle(Character $player, FightResult $fightResult): int
      {
          if ($player->getLevel() === 1) {
+@@ -18,11 +23,7 @@ class LevelHandler implements XpBonusHandlerInterface
              return 25;
          }
  
@@ -56,10 +57,10 @@ index 4857957..d482f35 100644
  
      public function setNext(XpBonusHandlerInterface $next): void
 diff --git a/src/ChainHandler/OnFireHandler.php b/src/ChainHandler/OnFireHandler.php
-index 8e838bd..672cef8 100644
+index 1a30c6d..f7d8f68 100644
 --- a/src/ChainHandler/OnFireHandler.php
 +++ b/src/ChainHandler/OnFireHandler.php
-@@ -10,17 +10,18 @@ class OnFireHandler implements XpBonusHandlerInterface
+@@ -10,6 +10,11 @@ class OnFireHandler implements XpBonusHandlerInterface
  {
      private XpBonusHandlerInterface $next;
  
@@ -71,6 +72,7 @@ index 8e838bd..672cef8 100644
      public function handle(Character $player, FightResult $fightResult): int
      {
          if ($fightResult->getWinStreak() >= 3) {
+@@ -18,11 +23,7 @@ class OnFireHandler implements XpBonusHandlerInterface
              return 25;
          }
  
