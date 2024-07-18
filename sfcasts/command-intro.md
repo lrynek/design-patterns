@@ -54,7 +54,7 @@ powering it on or off, and so on.
 An easy way to do this is with a `switch-case` statement, where each `case`represents
 a button's action with all of the logic it needs to perform that action.
 
-```php
+```
 public function pressButton(string $button)
 {
     switch ($button) {
@@ -87,7 +87,7 @@ in our `pressButton()` method, we would just call `execute()` on the command we 
 
 It looks something like this:
 
-```php
+```
 /**
  * @param array<string, ButtonCommandInterface> $commands
  */
@@ -112,7 +112,7 @@ and call `execute()`. Pretty handy!
 Instantiating this *TV remote* object (and the button commands), then *using* it, would look
 something like this:
 
-```php
+```
 $remote = new Remote([
     'turnOn' => new TurnOnCommand(),
     'turnOff' => new TurnOffCommand(),
