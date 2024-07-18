@@ -26,7 +26,7 @@ the constructor is usually a better idea because it allows you to *decouple* ins
 from execution. You can create your command objects at some point, and then later, if the
 conditions are met, execute them without worrying about their arguments.
 
-Alright! Let's create this class, I'll press "Alt + Enter", then select `Create class`.
+Alright! Let's create this class, I'll press "Option + Enter", then select `Create class`.
 I'll put it in the `App\ActionCommand` namespace instead of simply `Command` because we don't
 want to confuse these with Symfony commands.
 Press enter and, voila! There is our `AttackCommand` class. Remove the annotations on top of the
