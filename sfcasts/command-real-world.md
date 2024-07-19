@@ -1,6 +1,6 @@
 # Command Pattern in the Real World
 
-Now that we're pros at *utilizing* the Command pattern, can you guess where
+Now that we're pros at *applying* the Command pattern, can you guess where
 *Symfony* uses it? If you said "Symfony Console", you're right! And, we've been
 using it all along. Open up `GameCommand`. We can see that it extends from
 this `Command` base class. This belongs to Symfony, and it comes with a bunch of

@@ -5,3 +5,12 @@ chapters:
     - command-actions
     - command-undo
     - command-real-world
+    - chain-of-responsibility
+    - cor-sf-config-and-nullobject
+    - cor-conclusion-and-middleware
+    - state
+    - state-coding
+    - state-real-world
+    - factory
+    - factory-coding
+    - factory-families
