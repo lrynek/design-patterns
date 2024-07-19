@@ -96,6 +96,11 @@
             "description": null
         },
         {
+            "id": "cor-autoconfigure-handlers-2",
+            "name": "CoR: autoconfigure handlers 2",
+            "description": null
+        },
+        {
             "id": "null-object-create-handler",
             "name": "Null Object: create handler",
             "description": null
@@ -106,8 +111,8 @@
             "description": null
         },
         {
-            "id": "cor-autoconfigure-handlers",
-            "name": "CoR: autoconfigure handlers",
+            "id": "cor-autoconfig-tmp",
+            "name": "cor: autoconfig tmp",
             "description": null
         },
         {
@@ -216,5 +221,5 @@
             "description": null
         }
     ],
-    "sha": "a2382e71269b54f4d43324c57878d906b32d02e4"
+    "sha": "748ca7ce75bc4a2cf07fe6610136e9dba831820b"
 }
