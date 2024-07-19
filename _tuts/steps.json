@@ -96,8 +96,8 @@
             "description": null
         },
         {
-            "id": "cor-autoconfigure-handlers-2",
-            "name": "CoR: autoconfigure handlers 2",
+            "id": "cor-autoconfigure-handlers",
+            "name": "CoR: autoconfigure handlers",
             "description": null
         },
         {
@@ -221,5 +221,5 @@
             "description": null
         }
     ],
-    "sha": "748ca7ce75bc4a2cf07fe6610136e9dba831820b"
+    "sha": "02f00418b247a0ba4a7340085acc87b6f5765360"
 }
