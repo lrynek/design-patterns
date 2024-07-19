@@ -6,6 +6,7 @@ chapters:
     - command-undo
     - command-real-world
     - chain-of-responsibility
+    - cor-trigger-chain
     - cor-sf-config-and-nullobject
     - cor-conclusion-and-middleware
     - state
