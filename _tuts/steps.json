@@ -111,11 +111,6 @@
             "description": null
         },
         {
-            "id": "cor-autoconfig-tmp",
-            "name": "cor: autoconfig tmp",
-            "description": null
-        },
-        {
             "id": "state-create-interface",
             "name": "State: create interface",
             "description": null
