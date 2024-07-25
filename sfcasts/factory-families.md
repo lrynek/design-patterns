@@ -1,3 +1,3 @@
-# Facotry Families
+# Factory Families
 
 Coming soon!

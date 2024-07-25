@@ -1,3 +1,3 @@
-# Sate in the Real World
+# State in the Real World
 
 Coming soon!
