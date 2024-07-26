@@ -1,0 +1,398 @@
+WEBVTT
+
+00:00:01.066 --> 00:00:01.706 align:middle
+Allí estábamos...
+
+00:00:01.796 --> 00:00:03.576 align:middle
+en medio de una feroz batalla y...
+
+00:00:03.856 --> 00:00:05.156 align:middle
+¿qué?
+
+00:00:05.396 --> 00:00:07.136 align:middle
+¿Perdimos? ¡No puede ser!
+
+00:00:07.526 --> 00:00:09.096 align:middle
+Nuestro oponente tuvo mucha suerte.
+
+00:00:09.506 --> 00:00:12.746 align:middle
+Seguro que hay una forma de deshacer esa
+operación e intentarlo de nuevo, ¿verdad?
+
+00:00:13.246 --> 00:00:14.836 align:middle
+La hay: con el patrón de comandos.
+
+00:00:15.256 --> 00:00:19.406 align:middle
+Nuestros comandos sólo necesitan recordar algún
+estado sobre las cosas que hay que revertir.
+
+00:00:19.836 --> 00:00:23.536 align:middle
+En nuestro caso, queremos deshacer las acciones del
+último turno si el jugador perdió, para que tenga
+
+00:00:23.656 --> 00:00:26.306 align:middle
+una segunda oportunidad de
+jugar mejor y ganar la batalla.
+
+00:00:26.806 --> 00:00:27.536 align:middle
+¡Hagámoslo!
+
+00:00:28.106 --> 00:00:31.876 align:middle
+Lo primero que tenemos que hacer es añadir
+un nuevo método a ActionCommandInterface.
+
+00:00:32.226 --> 00:00:37.996 align:middle
+Ábrelo y, debajo de execute(), escribe
+public function undo(); sin argumentos.
+
+00:00:38.596 --> 00:00:41.066 align:middle
+A continuación, tenemos que
+implementarlo en todos nuestros comandos.
+
+00:00:41.426 --> 00:00:42.836 align:middle
+Empecemos por AttackCommand.
+
+00:00:43.266 --> 00:00:47.626 align:middle
+Ábrelo y, aquí arriba, podemos ver que
+PHPStorm ya está enfadado con nosotros
+
+00:00:47.626 --> 00:00:49.506 align:middle
+porque le falta el método undo().
+
+00:00:50.136 --> 00:00:53.366 align:middle
+Para implementarlo, haz clic en la
+interfaz y pulsa "Ctrl" + "Intro".
+
+00:00:53.366 --> 00:00:58.106 align:middle
+Selecciona "Añadir stubs de métodos", y
+como el método undo() ya está seleccionado,
+
+00:00:58.266 --> 00:00:59.336 align:middle
+sólo tenemos que pulsar "Enter".
+
+00:00:59.966 --> 00:01:02.236 align:middle
+En la parte inferior, podemos ver que
+se ha añadido nuestro método. Por
+
+00:01:02.706 --> 00:01:05.716 align:middle
+ahora podemos dejar aquí nuestro
+comentario "TODO", porque aún tenemos que
+
+00:01:05.716 --> 00:01:07.676 align:middle
+averiguar qué datos debe recordar el comando.
+
+00:01:08.376 --> 00:01:11.426 align:middle
+Mantén pulsado "comando" y haz clic en el
+método attack() para ir a la definición.
+
+00:01:12.056 --> 00:01:16.226 align:middle
+Aquí podemos ver que consume algo de
+resistencia y calcula el daño del ataque.
+
+00:01:16.686 --> 00:01:19.496 align:middle
+Eso significa que tenemos que recordar
+la resistencia del jugador antes
+
+00:01:19.496 --> 00:01:21.626 align:middle
+de un ataque, así como el daño infligido.
+
+00:01:22.246 --> 00:01:26.676 align:middle
+Pero, aquí abajo, puedes ver que estamos enviando
+daño al jugador contrario con receiveAttack().
+
+00:01:26.956 --> 00:01:30.016 align:middle
+Así que el valor que realmente
+buscamos es la variable $damageDealt.
+
+00:01:30.016 --> 00:01:33.616 align:middle
+Vayamos a la parte superior de esta
+clase y añadamos esas propiedades
+
+00:01:33.896 --> 00:01:38.166 align:middle
+private int $damageDealt
+y private int $stamina.
+
+00:01:39.236 --> 00:01:41.746 align:middle
+Dentro de execute(), antes
+de que el jugador ataque,
+
+00:01:42.056 --> 00:01:47.036 align:middle
+escribe $this->stamina =
+$this->player->getStamina(), y aquí abajo,
+
+00:01:47.526 --> 00:01:50.616 align:middle
+escribe $this->damageDealt = $damageDealt.
+
+00:01:51.456 --> 00:01:56.316 align:middle
+¡Perfecto! Cuando deshacemos un ataque, también
+tenemos que restaurar la salud del adversario.
+
+00:01:56.316 --> 00:01:56.816 align:middle
+Para ello, escribe
+
+00:01:57.026 --> 00:02:03.076 align:middle
+$this->opponent->setHealth($this->opponent->getCurrentHealth()
++ $this->damageDealt). Ahora, tenemos que restaurar
+
+00:02:03.856 --> 00:02:09.466 align:middle
+la resistencia del jugador, escribe
+$this->player->setStamina($this->stamina). Ah,
+
+00:02:10.046 --> 00:02:12.796 align:middle
+¡y casi nos olvidamos de revertir
+el fightResultSet ! No queremos
+
+00:02:13.086 --> 00:02:14.726 align:middle
+informar de datos incorrectos.
+Para revertir el daño
+
+00:02:15.346 --> 00:02:16.566 align:middle
+infligido, escribe
+
+00:02:16.826 --> 00:02:23.806 align:middle
+$this->fightResultSet->of($this->player)->removeDamageDealt($this->damageDealt).
+Y para revertir el daño
+
+00:02:24.726 --> 00:02:27.026 align:middle
+recibido por el adversario, escribe
+$this->fightResultSet->of($this->opponent)->removeDamageReceived($this->damageDealt);.
+
+00:02:27.326 --> 00:02:34.006 align:middle
+¡Estupendo! Esta clase
+
+00:02:34.706 --> 00:02:36.166 align:middle
+está lista. ¡Sigamos!
+
+00:02:36.516 --> 00:02:37.236 align:middle
+Abre HealCommand, y
+
+00:02:38.096 --> 00:02:41.806 align:middle
+haremos lo mismo aquí: añadiremos
+el método undo(), haremos clic en el
+
+00:02:42.116 --> 00:02:45.796 align:middle
+nombre de la interfaz y pulsaremos "Ctrl" +
+"Intro" y añadiremos el stub. Ahora podemos
+
+00:02:46.486 --> 00:02:48.596 align:middle
+decidir qué datos necesitamos
+recordar. Este comando es
+
+00:02:49.136 --> 00:02:52.156 align:middle
+más sencillo -sólo cambia la salud y la
+resistencia del jugador-, así que almacenemos
+
+00:02:52.156 --> 00:02:54.286 align:middle
+sus valores iniciales. En la parte superior de
+
+00:02:54.566 --> 00:02:57.046 align:middle
+la clase, añade las dos propiedades
+private int $currentHealth
+
+00:02:57.296 --> 00:03:01.966 align:middle
+y private int $stamina. A
+continuación , dentro de execute(),
+
+00:03:02.736 --> 00:03:07.356 align:middle
+antes de curar al jugador, guardemos su
+salud actual con $this->currentHealth =
+
+00:03:07.356 --> 00:03:12.026 align:middle
+$this->player->getCurrentHealth().
+Haremos lo mismo
+
+00:03:12.026 --> 00:03:16.606 align:middle
+para la resistencia - $this->stamina =
+$this->player->getStamina(). Ahora podemos
+
+00:03:17.346 --> 00:03:19.046 align:middle
+implementar el método
+undo(). Sólo necesitamos
+
+00:03:19.586 --> 00:03:22.146 align:middle
+revertir esas dos propiedades del jugador, así que escribe
+$this->player->setHealth($this->currentHealth)
+
+00:03:22.356 --> 00:03:26.956 align:middle
+y $this->player->setStamina($this->stamina).
+¡ Otro comando
+
+00:03:26.956 --> 00:03:30.496 align:middle
+hecho!
+
+00:03:31.596 --> 00:03:32.566 align:middle
+¡Qué bien! Por último, abre
+
+00:03:32.956 --> 00:03:37.526 align:middle
+SurrenderCommand y hazlo una vez
+más: añade el método undo()
+
+00:03:37.906 --> 00:03:40.606 align:middle
+y pulsa "Ctrl" + "Intro". Podemos dejar
+
+00:03:41.186 --> 00:03:44.696 align:middle
+este método vacío porque sería una tontería
+revertir una acción de rendición. ¡Muy bien! Es
+
+00:03:45.416 --> 00:03:45.916 align:middle
+hora de
+
+00:03:45.916 --> 00:03:49.676 align:middle
+preguntar al jugador si quiere revertir la
+última acción en caso de derrota. Cerraré
+
+00:03:50.206 --> 00:03:52.996 align:middle
+algunos archivos y volveré a
+GameApplication. Busca el turno de la IA
+
+00:03:52.996 --> 00:03:59.876 align:middle
+, y dentro de este if() donde comprobamos
+si el jugador murió, escribe $undoChoice =
+
+00:04:00.656 --> 00:04:05.296 align:middle
+GameApplication::$printer->confirm().
+La pregunta
+
+00:04:05.936 --> 00:04:07.946 align:middle
+será ¡Has perdido! ¿Quieres
+
+00:04:08.126 --> 00:04:09.716 align:middle
+deshacer tu último turno?. Si la respuesta
+
+00:04:09.716 --> 00:04:13.676 align:middle
+es "no", tenemos que terminar la
+batalla y salir, así que moveré
+
+00:04:13.936 --> 00:04:16.676 align:middle
+estas dos líneas dentro de if. Si la respuesta
+
+00:04:16.676 --> 00:04:21.256 align:middle
+es "sí", deshacemos las acciones del último turno,
+lo que significa que tenemos que llamar a undo()
+
+00:04:21.256 --> 00:04:23.366 align:middle
+en los objetos de comando.
+Pero no podemos deshacer
+
+00:04:23.866 --> 00:04:26.336 align:middle
+estos comandos en cualquier orden. Tenemos que
+
+00:04:26.546 --> 00:04:29.616 align:middle
+deshacerlos en el orden inverso al que se
+ejecutaron... o podrían ocurrir cosas raras.
+
+00:04:29.616 --> 00:04:30.796 align:middle
+Esto es básicamente
+
+00:04:31.346 --> 00:04:34.946 align:middle
+una pila "FILO" - "Primero en entrar,
+último en salir". De todos modos, deshagamos
+
+00:04:35.556 --> 00:04:40.646 align:middle
+primero el ataque de la IA con
+$aiAttackCommand->undo(). Luego desharemos
+
+00:04:41.146 --> 00:04:44.476 align:middle
+la acción del jugador -
+$playerAction->undo(). ¡Estupendo! Ahora
+
+00:04:45.416 --> 00:04:46.976 align:middle
+podemos probarlo. Gira hasta
+
+00:04:46.976 --> 00:04:49.006 align:middle
+tu terminal y ejecuta: php
+bin/console app:game:play
+
+00:04:49.006 --> 00:04:55.466 align:middle
+Esta vez seremos un arquero, e intentaremos
+perder la batalla. Quizá em pecemos
+
+00:04:55.936 --> 00:04:59.846 align:middle
+curándonos, y luego atacaremos hasta que, con
+suerte, perdamos. Y... ¡sí! ¡ Hemos perdido
+
+00:05:01.696 --> 00:05:02.476 align:middle
+! Ahora
+
+00:05:02.626 --> 00:05:06.196 align:middle
+nos pregunta si queremos deshacer
+nuestro último turno. Di "sí" o
+
+00:05:06.196 --> 00:05:08.876 align:middle
+pulsa "Intro" y... ¡el juego continuó! ¡Es
+
+00:05:09.246 --> 00:05:10.176 align:middle
+una buena
+
+00:05:10.546 --> 00:05:11.336 align:middle
+señal! Pero para estar
+
+00:05:11.786 --> 00:05:14.646 align:middle
+absolutamente seguros de que esto
+funciona como debería, comparemos la
+
+00:05:14.906 --> 00:05:19.426 align:middle
+cantidad de salud que tenemos ahora con la
+que teníamos hace un turno. Vale, ahora mismo
+
+00:05:20.056 --> 00:05:24.336 align:middle
+tenemos "9/50" y la IA tiene
+"50/60". Hace un turno,
+
+00:05:24.786 --> 00:05:31.066 align:middle
+que era el segundo, teníamos
+"9/50" y la IA "50/60". La IA y
+
+00:05:31.066 --> 00:05:33.166 align:middle
+nuestro personaje tienen la misma
+cantidad de salud en ambas rondas,
+
+00:05:33.166 --> 00:05:35.816 align:middle
+¡así que esto funciona como
+se esperaba! ¡Qué bien! Y si
+
+00:05:36.246 --> 00:05:40.146 align:middle
+esta vez decimos "no" sólo para ver si la
+batalla concluye... ¡sí! ¡ La batalla terminó
+
+00:05:41.336 --> 00:05:43.576 align:middle
+y perdimos! Gracias al
+
+00:05:43.946 --> 00:05:47.676 align:middle
+patrón de mando, pudimos revertir las
+acciones con facilidad. Pero eso no es lo
+
+00:05:47.976 --> 00:05:50.596 align:middle
+único que el patrón Comando puede
+hacer por nosotros. También podemos
+
+00:05:51.146 --> 00:05:55.156 align:middle
+utilizarlo para poner nuestras acciones en una
+cola y ejecutarlas cuando queramos. Supongamos que
+
+00:05:55.156 --> 00:05:59.196 align:middle
+queremos reproducir nuestras batallas y ver cómo
+se desarrolla todo de nuevo. Podríamos almacenar
+
+00:05:59.756 --> 00:06:03.656 align:middle
+todos los comandos que ocurrieron en una batalla en algún
+lugar, como una lista, una base de datos o cualquier
+
+00:06:03.656 --> 00:06:06.016 align:middle
+otro mecanismo de
+almacenamiento. Luego, cogemos
+
+00:06:06.406 --> 00:06:09.136 align:middle
+la lista y los ejecutamos uno a uno. Aunque
+sería superdivertido trabajar en eso
+
+00:06:09.826 --> 00:06:12.966 align:middle
+, ¡tenemos más patrones que
+cubrir! Pero antes de pasar
+
+00:06:13.386 --> 00:06:16.596 align:middle
+al siguiente, vamos a averiguar
+dónde y cómo aprovecha Symfony
+
+00:06:16.596 --> 00:06:18.996 align:middle
+el patrón Comando. Eso a continuación.
