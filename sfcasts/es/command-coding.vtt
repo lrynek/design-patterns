@@ -1,0 +1,205 @@
+WEBVTT
+
+00:00:01.076 --> 00:00:04.846 align:middle
+Nuestros inversores han pedido una nueva
+característica: "hacer el juego más interactivo".
+
+00:00:05.486 --> 00:00:06.896 align:middle
+Esos interesados son tan graciosos...
+
+00:00:07.596 --> 00:00:12.216 align:middle
+Vale, en lugar de que las batallas se desarrollen
+automáticamente, quieren que el jugador pueda elegir
+
+00:00:12.216 --> 00:00:14.666 align:middle
+qué acción realizar al
+principio de cada turno.
+
+00:00:15.316 --> 00:00:18.636 align:middle
+Ahora mismo, nuestro juego sólo
+admite la acción Atacar, así que,
+
+00:00:18.846 --> 00:00:22.926 align:middle
+para hacerlo más real, también añadiremos
+un par de acciones más: Curar y Rendirse.
+
+00:00:23.446 --> 00:00:25.896 align:middle
+¡Esta es una gran oportunidad para
+utilizar el patrón de comandos!
+
+00:00:26.616 --> 00:00:29.636 align:middle
+El primer paso es identificar
+el código que hay que cambiar
+
+00:00:29.636 --> 00:00:32.336 align:middle
+y encapsularlo en su propia clase comando.
+
+00:00:32.816 --> 00:00:35.536 align:middle
+Abre GameApplication y busca el método play().
+
+00:00:36.456 --> 00:00:40.336 align:middle
+Dentro del bucle while hay un comentario que
+nos dice dónde empieza el turno del jugador.
+
+00:00:40.686 --> 00:00:44.106 align:middle
+Selecciona el código justo antes de
+comprobar si el jugador ha ganado y córtalo,
+
+00:00:45.046 --> 00:00:47.836 align:middle
+y ya que estamos aquí escribamos
+el código que queramos.
+
+00:00:48.346 --> 00:00:51.226 align:middle
+Sabemos que queremos instanciar
+un objeto AttackCommand
+
+00:00:51.226 --> 00:00:53.536 align:middle
+y llamar a execute() sobre
+él, así que vamos a hacerlo.
+
+00:00:54.226 --> 00:00:56.596 align:middle
+Crea una variable llamada
+$playerAction y establécela
+
+00:00:56.596 --> 00:00:59.876 align:middle
+en new AttackCommand(),
+esta clase aún no existe.
+
+00:01:00.376 --> 00:01:02.936 align:middle
+A continuación, escribe
+$playerAction->execute().
+
+00:01:03.776 --> 00:01:06.106 align:middle
+Lo siguiente es manejar
+los argumentos del comando.
+
+00:01:06.686 --> 00:01:10.606 align:middle
+Para poder atacar necesitamos tanto los
+objetos carácter como FightResultSet,
+
+00:01:10.606 --> 00:01:14.596 align:middle
+pero ¿dónde debemos establecerlos, en
+el constructor o en el método execute?
+
+00:01:15.156 --> 00:01:17.496 align:middle
+La respuesta puede depender de
+las necesidades de tu aplicación,
+
+00:01:17.906 --> 00:01:21.656 align:middle
+pero pasarlos al constructor
+suele ser mejor idea porque te
+
+00:01:21.656 --> 00:01:24.406 align:middle
+permite desacoplar la
+instanciación de la ejecución.
+
+00:01:25.336 --> 00:01:28.436 align:middle
+Puedes crear tus objetos comando
+en algún momento, y más tarde,
+
+00:01:28.496 --> 00:01:32.076 align:middle
+si se cumplen las condiciones, ejecutarlos
+sin preocuparte de sus argumentos.
+
+00:01:32.756 --> 00:01:38.336 align:middle
+¡Muy bien! Vamos a crear esta clase, pulsaré
+"Opción + Intro", luego seleccionaré Create class.
+
+00:01:38.846 --> 00:01:43.506 align:middle
+Lo pondré en el espacio de nombres App\ActionCommand
+en lugar de simplemente Command porque no queremos
+
+00:01:43.506 --> 00:01:45.516 align:middle
+confundirlos con los comandos de Symfony.
+
+00:01:46.306 --> 00:01:47.696 align:middle
+Pulsa Intro y, ¡voilá!
+
+00:01:48.036 --> 00:01:49.586 align:middle
+Ahí tienes nuestra clase AttackCommand.
+
+00:01:50.046 --> 00:01:53.276 align:middle
+Elimina las anotaciones encima del
+constructor porque son redundantes.
+
+00:01:53.846 --> 00:01:58.066 align:middle
+A continuación, dividiré los argumentos en
+varias líneas y acortaré los espacios de nombres.
+
+00:01:58.806 --> 00:02:03.296 align:middle
+Mientras lo hago, añadiré private readonly para
+aprovechar la promoción de propiedades del constructor,
+
+00:02:03.636 --> 00:02:08.326 align:middle
+y cambiaré el nombre de la variable $ai por
+$opponent porque tiene más sentido en este contexto.
+
+00:02:12.026 --> 00:02:14.336 align:middle
+A continuación, tenemos que
+implementar el método execute.
+
+00:02:14.846 --> 00:02:17.956 align:middle
+Escribe public function execute(), ¡y pega!
+
+00:02:18.676 --> 00:02:22.226 align:middle
+Di que sí para añadir la sentencia import
+GameApplication, y ahora sólo tenemos
+
+00:02:22.226 --> 00:02:31.526 align:middle
+que refactorizar las
+variables locales con $this.
+
+00:02:31.526 --> 00:02:33.736 align:middle
+Ah, y no olvides cambiar ai por opponent.
+
+00:02:34.646 --> 00:02:36.636 align:middle
+¡Perfecto! Nuestro AttackCommand está listo.
+
+00:02:37.106 --> 00:02:41.096 align:middle
+Ahora, volvamos a GameApplication y
+haremos lo mismo para el turno de la IA.
+
+00:02:41.626 --> 00:02:46.516 align:middle
+Desplázate un poco hacia abajo hasta que veas el comentario
+"Turno de la IA", selecciona todo ese código y sustitúyelo
+
+00:02:46.516 --> 00:02:51.946 align:middle
+por $aiAction = new AttackCommand()
+donde el argumento del jugador es $ai,
+
+00:02:51.946 --> 00:02:55.436 align:middle
+el del adversario es $player
+y $fightResultSet al final.
+
+00:02:56.126 --> 00:02:58.746 align:middle
+Después, escribe $aiAction->execute().
+
+00:02:59.466 --> 00:03:00.506 align:middle
+Uf, ¡por fin!
+
+00:03:00.806 --> 00:03:01.866 align:middle
+Estamos listos para probarlo.
+
+00:03:02.326 --> 00:03:08.396 align:middle
+Gira hasta tu terminal y ejecuta: php
+bin/console app:game:play ¡Ejecuta!
+
+00:03:08.786 --> 00:03:11.506 align:middle
+Voy a ser un luchador y...
+
+00:03:11.506 --> 00:03:12.736 align:middle
+¡sí! ¡Hemos ganado!
+
+00:03:13.296 --> 00:03:13.916 align:middle
+¡Esto es genial!
+
+00:03:14.536 --> 00:03:17.866 align:middle
+Bueno, no ha cambiado nada, pero está
+utilizando nuestros comandos bajo el capó.
+
+00:03:18.586 --> 00:03:22.196 align:middle
+Estamos listos para añadir más comandos y
+preguntar al jugador qué acción debe realizar.
+
+00:03:22.676 --> 00:03:23.316 align:middle
+¡Eso a continuación!
