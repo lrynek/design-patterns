@@ -26,6 +26,8 @@ the constructor is usually a better idea because it allows you to *decouple* ins
 from execution. You can create your command objects at some point, and then later, if the
 conditions are met, execute them without worrying about their arguments.
 
+[[[ code('76622e675c') ]]]
+
 Alright! Let's create this class, I'll press "Option + Enter", then select `Create class`.
 I'll put it in the `App\ActionCommand` namespace instead of simply `Command` because we don't
 want to confuse these with Symfony commands.
@@ -35,15 +37,21 @@ and shorten the namespaces. While doing so, I'll add `private readonly` to lever
 constructor property promotion, and rename the `$ai` variable to `$opponent` because
 it makes more sense in this context.
 
+[[[ code('c2d534937d') ]]]
+
 Next, we need to implement the `execute` method. Write `public function execute()`,
 and paste! Say yes to add the `GameApplication` import statement, and now we just need to
 refactor the local variables with `$this`. Oh, and don't forget to change `ai`
 to `opponent`.
 
+[[[ code('65fd127dc3') ]]]
+
 Perfect! Our `AttackCommand` is ready. Now, let's go back to `GameApplication` and we'll
 do the same thing for the AI's turn. Scroll down a bit until you see the comment "AI's turn",
 select all that code and replace with `$aiAction = new AttackCommand()` where the player argument
 is `$ai`, the opponent is `$player` and `$fightResultSet` at the end. Then, write `$aiAction->execute()`.
+
+[[[ code('ca27dfa284') ]]]
 
 Phew, finally! We're ready to give it a try. Spin over to your terminal and run:
 
