@@ -10,6 +10,8 @@ lost, so they get a second chance to play better and win the battle. Let's do th
 The first thing we need to do is add a new method to `ActionCommandInterface`.
 Open that up and, below `execute()`, write `public function undo();` with *no* arguments.
 
+[[[ code('419537753f') ]]]
+
 Next, we need to *implement* it in all of our commands. Let's start
 with `AttackCommand`. Open that and, up here at the top, we can see that PHPStorm
 is already mad at us because it's missing the `undo()` method. To implement that,
@@ -26,9 +28,14 @@ as the damage dealt. *But*, down here, you can see that we're sending the
 opposing player damage with `receiveAttack()`. So the value we're *really* after
 is the `$damageDealt` variable. Let's go to the top of this class and add those
 properties: `private int $damageDealt` and `private int $stamina`.
+
+[[[ code('8e5811a48c') ]]]
+
 Inside `execute()`, before the player attacks,
 write `$this->stamina = $this->player->getStamina()`, and down here,
 write `$this->damageDealt = $damageDealt`. Perfect!
+
+[[[ code('866cf7b7af') ]]]
 
 When we undo an attack, we also need to restore the *opponent's* health. To do that,
 write `$this->opponent->setHealth($this->opponent->getCurrentHealth() + $this->damageDealt)`.
@@ -41,23 +48,34 @@ And to revert damage received by the *opponent*,
 write `$this->fightResultSet->of($this->opponent)->removeDamageReceived($this->damageDealt);`.
 Great! This class is *ready*. Let's keep going!
 
+[[[ code('b50477f3a4') ]]]
+
 Open `HealCommand`, and we'll do the same thing here - add the `undo()`
 method, click on the name of the interface, and press "Ctrl" + "Enter" and add the stub. Now we
 can decide what data we need to remember. This command is simpler - it just
 changes the player's health and stamina - so let's store their starting values.
 At the top of the class, add both properties: `private int $currentHealth`
-and `private int $stamina`. Next, inside `execute()`, before healing the player,
-let's save their current health
+and `private int $stamina`. 
+
+[[[ code('ab15dc2d0d') ]]]
+
+Next, inside `execute()`, before healing the player, let's save their current health
 with `$this->currentHealth = $this->player->getCurrentHealth()`. We'll do the
 same for stamina - `$this->stamina = $this->player->getStamina()`.
+
+[[[ code('3a3d12e499') ]]]
 
 Now we can implement the `undo()` method. We only need to revert those two
 player properties, so write `$this->player->setHealth($this->currentHealth)`
 and `$this->player->setStamina($this->stamina)`. Another command *done*! Nice!
 
+[[[ code('d375df7d96') ]]]
+
 Finally, open `SurrenderCommand` and do this one more time - add
 the `undo()` method, and hit "Ctrl" + "Enter". We can leave this method empty
 because it would be silly to revert a surrender action.
+
+[[[ code('c5a8d985b7') ]]]
 
 All right! It's time to ask the player if they want to revert the last action in
 case of defeat. I'll close a few files and go back to `GameApplication`.
@@ -68,11 +86,17 @@ read:
 `You've lost! Do you want to undo your last turn?`.
 
 If the answer is "no", we need to end the battle and exit, so I'll move these
-two lines inside the `if`. If the answer is "yes", we *undo* actions from the
-last turn, which means that we need to call `undo()` on the command objects. But
-we can't just undo these commands in any order. We need to undo them in the
-reverse order that they were executed... or weird things could happen. This is
-basically a "FILO" stack - "First In, Last Out".
+two lines inside the `if`. 
+
+[[[ code('68023ff3bd') ]]]
+
+If the answer is "yes", we *undo* actions from the last turn, which means that
+we need to call `undo()` on the command objects. But we can't just undo these
+commands in any order. We need to undo them in the reverse order that they 
+were executed... or weird things could happen. This is basically
+a "FILO" stack - "First In, Last Out".
+
+[[[ code('8c9ce6bd0c') ]]]
 
 Anyway, let's undo the AI's attack first with `$aiAttackCommand->undo()`. *Then*
 we'll undo the player's action - `$playerAction->undo()`. Awesome! Now we can
