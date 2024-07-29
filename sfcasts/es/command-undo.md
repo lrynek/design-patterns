@@ -57,7 +57,7 @@ php bin/console app:game:play
 
 Esta vez seremos un arquero, e intentaremos perder la batalla. Quizá empecemos curándonos, y luego atacaremos hasta que, con suerte, perdamos. Y... ¡sí! ¡Hemos perdido! Ahora nos pregunta si queremos deshacer nuestro último turno. Di "sí" o pulsa "Intro" y... ¡el juego continuó! ¡Es una buena señal! Pero para estar absolutamente seguros de que esto funciona como debería, comparemos la cantidad de salud que tenemos ahora con la que teníamos hace un turno.
 
-Vale, ahora mismo tenemos "9/50" y la IA tiene "50/60". Hace un turno, que era el segundo, teníamos "9/50" y la IA "50/60". La IA y nuestro personaje tienen la misma cantidad de salud en ambas rondas, ¡así que esto funciona como se esperaba! ¡Qué bien! Y si esta vez decimos "no" sólo para ver si la batalla concluye... ¡sí! ¡La batalla ha terminado y hemos perdido!
+Vale, ahora mismo tenemos "9/50" y la IA tiene "50/60". Hace un turno, que era el segundo, teníamos "9/50" y la IA "50/60". La IA y nuestro personaje tienen la misma cantidad de salud en ambas rondas, ¡así que esto funciona como se esperaba! ¡Qué bien! Y si esta vez decimos "no" sólo para ver si la batalla concluye... ¡sí! ¡La batalla terminó y perdimos!
 
 ## Puesta en cola de las acciones de mando
 
