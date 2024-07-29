@@ -254,13 +254,14 @@ GameApplication::$printer->confirm().
 La pregunta
 
 00:04:05.936 --> 00:04:07.946 align:middle
-será ¡Has perdido! ¿Quieres
+será `You've lost! Do you want to 
+undo your last turn?`.
 
 00:04:08.126 --> 00:04:09.716 align:middle
-deshacer tu último turno?. Si la respuesta
+Si la respuesta es "no",
 
 00:04:09.716 --> 00:04:13.676 align:middle
-es "no", tenemos que terminar la
+tenemos que terminar la
 batalla y salir, así que moveré
 
 00:04:13.936 --> 00:04:16.676 align:middle
