@@ -1,108 +1,121 @@
 # Chain of Responsibility
 
-Time for design pattern number two - the Chain of Responsibility pattern. Sometimes
-there's no an official definition for patterns, so this is how I like to define it:
+Time for design pattern number two - the *Chain of Responsibility* pattern.
+Sometimes, an *official* definition for a pattern doesn't exist. This is no
+exception, so here's *my* definition. Put simply, Chain of Responsibility is a
+way to set up a sequence of methods to be executed, where each method can decide
+to execute the *next* one in the chain or *stop* the sequence entirely.
 
-## Definition
+When we have to run a sequence of checks to determine what to do next, this
+pattern can help us do that. Suppose we want to check to see if a comment is
+spam or not, and we have *five* different algorithms to help us make that
+determination. If any of them return `true`, it means the comment *is* spam and
+we should stop the process because running algorithms is expensive. In a
+situation like this, we need to encapsulate each algorithm into a "handler"
+class, set up the chain, and run it.
 
-> Chain of responsibility it's just a way to set up a sequence of methods to be executed,
-where each method can decide to execute the next one in the chain or stop the sequence.
-
-This pattern solves the problem of needing to run a sequence of checks in order 
-to determine what to do. Let's suppose we want to check if a comment is spam or not,
-and we have 5 different algorithms to check for that. If any of them returns `true`, it means
-the comment is spam and we should stop the process because running the algorithms is
-expensive. For this purpose, we'd need to encapsulate each algorithm into a "handler" class,
-set up the chain, and run it.
+Now, if you're wondering what a "handler" class is, or what I mean by "chain",
+great questions! Let's take a closer look at the anatomy of the pattern.
 
 ## Pattern Anatomy
 
-You might be wondering what's a "handler" class, and what do I mean by "chain". 
-Those are great questions. Let's review the anatomy of the pattern.
+Chain of Responsibility is composed of three parts:
 
-It's composed of three parts:
+First, it has a `HandlerInterface`, which usually contains two
+methods: `setNext()` and `handle()`. The `setNext()` method receives a
+new `HandlerInterface` object. This allows us to set up a sequence of handlers,
+choosing which handlers we want in the sequence and in what order they appear.
+This sequence is called *chain*. The `handle()` method is where we put our business logic.
 
-First, a `HandlerInterface`, usually with two methods: `setNext()` and `handle()`.
+*Second* is the *concrete handlers*, which implement the `HandlerInterface`.
+They hold a `HandlerInterface` object and decide if the next handler should be
+called or not.
 
-The `setNext()` method receives another `HandlerInterface` object. This allows you
-to set up a sequence of handlers, choosing what handlers you want in the sequence
-and in what order. This sequence is called *chain*. And, the `handle()` method
-is just where your business logic goes.
+Finally, we have a *client* that sets up the chain, ensuring that the sequence
+is in the right order and triggers the first handler.
 
-Ok, the second part is the *concrete handlers*, they implement the `HandlerInterface`.
-They hold a `HandlerInterface` object, and decide if the next handler should be called or not.
-
-And third, a *client* that sets up the chain, ensuring that the sequence it's in the right order,
-and triggers the first handler.
-
-If you got more questions than when we started, don't worry! It's time to see this in action.
+If you have more questions now than you did when we started, don't worry! It'll
+make more sense when we see it in action.
 
 ## The Real-Life Challenge
 
-For our next challenge we want to boost the player's level, so we'll reward them with
-extra XP points after a battle. But, we want to reward them in different ways, and only one
-should apply. Here are the conditions to reward the player:
+For our next challenge, we're going to boost the player's level. To do that,
+we'll reward players with extra XP after a battle. We
+can reward them in a few different ways, but only *one* should apply at a time.
+The conditions for XP rewards are as follows:
 
-1) If the player is level 1.
-2) If the player has won 3 times or more in a row.
-3) And, to add some randomness, the player will throw 2 6-sided dice. They win
-if roll a pair, but if the result is 7, we exit immediately.
+One: If the player is level 1.
+Two: If the player has won 3 times or more in a row.
+And three, to add some randomness, the player will throw two six-sided dice.
+They win if a *pair* is rolled, but if the result is 7, we exit immediately.
 
-Alright, let's do this! The first thing we need to do is to create an interface
-for our handlers, so inside the `src/` directory, create a new folder called `ChainHandler`
-and inside it, add a new PHP class called, what about? `XpBonusHandlerInterface`. 
-As a recommendation try including the name of the pattern as part of the interface name
-so is pretty obvious what pattern we are using.
+Okay, let's do this! The first step we need to take is creating an interface
+for our handlers. Inside the `src/` directory, create a new folder
+called `ChainHandler/`. And inside *that*, we'll add a new PHP class called...
+what about `XpBonusHandlerInterface`. I recommend including the name of the
+pattern as part of the interface name so it's more obvious what pattern we're
+using.
 
-Ok, add the first method `public function handle()`, and as arguments, we'll
-have `Character $player`, and `FightResult $fightResult`. We're using `FightResult`
-here because we're only interested in the data of this `$player` object. Don't forget
-to add the return type `int`.
+Now we can add the first method - `public function handle()` - and the
+arguments - `Character $player` and `FightResult $fightResult`. We're
+using `FightResult` here because we're only interested in the data of
+this `$player` object. Oh! And don't forget to add the return type `int`.
 
-For the next method write `public function setNext(XpBonusHandlerInterface $next): void`.
-Oh, I almost forgot to add the `Character` import statement, press "Option + Enter" and
-select "Import class".
+For the next method
+write `public function setNext(XpBonusHandlerInterface $next): void`. And I
+almost forgot to add the `Character` import statement. Press "Option" + "Enter"
+and select "Import class".
 
-Ok! The interface is ready, time to add some *handlers*. Inside the `ChainHandler/` directory
-add a PHP class. The first condition to reward players is if they're level one, so I'll
-call this `LevelHandler`.
+Okay, the interface is ready! It's time to add some *handlers*. Inside
+the `ChainHandler/` directory, add a PHP class. The first condition to reward
+players is if they're level 1, so we'll call this `LevelHandler`. Now we need to
+implement the `XpBonusHandlerInterface`. We've seen this before! Hold "Option" + "Enter"
+to add both methods.
 
-Start by implementing the `XpBonusHandlerInterface`, and as you've already seen this before
-I'll press "Option + Enter" to add both methods. I'll deal with `setNext()` first so inside
-write `$this->next = $next;`. Then, to add the property press "Option + Enter"
-on `$this->next` and select "Add property". Perfect! Now the `handle()` method. We'll reward
-the player if is level 1, so write `if ($player->getLevel() === 1)` and inside `return 25;`.
-If it's not, we'll call the next handler but only if it's set, so write
-`if (isset($this->next))`, and inside call it `return $this->next->handle($player, $fightResult)`.
-Then, at the bottom we just `return 0;`, that means we got to the end of the *chain*
-and none of the handlers applied.
+We'll work on `setNext()` first. Inside, write `$this->next = $next;`. Then, to
+add the property, click on `$this->next`, press "Option" + "Enter", and
+select "Add property". Perfect! Now let's work on the `handle()` method. We want
+to reward the player if their level is 1, so
+write `if ($player->getLevel() === 1)` and, inside, we'll `return 25;`. If the
+player's level is *not* 1, we'll call the next handler, but only if it's set, so
+write `if (isset($this->next))`. Inside,
+we'll `return $this->next->handle($player, $fightResult)`. At the bottom, we'll
+just `return 0;`. That means we made it to the end of the chain and none of the
+handlers applied.
 
-Let's keep going. Add another PHP class to deal with our second winning condition, which 
-is when the player has won 3 or more times in a row, so I'll call it `OnFireHandler`.
-Implement the interface and do the same trick "Option + Enter" to add the methods. The 
-`setNext()` method is going to be the same thing, write `$this->next = $next;`, and 
-press "Option + Enter" to add the property. In the `handle()` method we need to check
-for the player's win-streak, that value is inside `$fightResult`, so write
-`if ($fightResult->getWinStreak() >= 3` and inside, reward the player by returning `25`.
-Below that, add the same check before calling the next handler `if (isset($this->next))`
-and inside, call it just as before `return $this->next->handle($player, $fightResult)`.
-Hmm, I'm not liking this repetition... can we do better? Actually, we can! but that's
-for later. Ok, finish up this method by returning `0` at the bottom.
+Let's keep it going! Add another PHP class for our second winning condition -
+when the player has won 3 or more times in a row - and we'll call
+it `OnFireHandler`. Implement the interface... and use the same trick with
+"Option" + "Enter" to add the methods. We'll do the same thing with
+the `setNext()`. Write `$this->next = $next`, and hold "Option" + "Enter" to add
+the property. In the `handle()` method, we need to check for the player's win
+streak. That value is inside `$fightResult`, so
+write `if ($fightResult->getWinStreak() >= 3)`. Inside *that*, reward the player
+by returning `25`. Below, add the same check as before, calling the next
+handler: `if (isset($this->next))`...
+and `return $this->next->handle($player, $fightResult)`. So... I'm not in love
+with this repetition. Surely there's a better way to do this, right? There *is*,
+and we'll talk about that later, but for now, let's finish up this method and
+return `0` at the bottom.
 
-And now the last handler, on this one we need to roll dice and check
-if we rolled a pair or a 7, so I'll call it `CasinoHandler` - who does not like gambling?!
+For the last handler condition, where we roll dice and check to see if we rolled
+a pair or a 7, let's call it `CasinoHandler`, since we're doing a little
+gambling. We'll start this in the same way, implementing the interface and
+adding the methods by holding "Option" + "Enter". Then, just like before,
+implement `setNext()`. Inside, write `$this->next = $next` and add the property
+on top.
 
-We'll start in the same way, implementing the interface and adding the methods
-by pressing "Options + Enter". Also implement `setNext()` as before, inside write
-`$this->next = $next` and add the property on top. And now to the guts of the `handle()` method.
-Roll a couple of 6-sided dice by writing `$dice1 = Dice::roll(6);` and `$dice2 = Dice::roll(6);`.
-Then, the first thing to check is if we rolled 7 because we need to exit immediately, so write
-`if ($dice1 + $dice2 === 7)`, and inside return `0`. Below we'll check if we rolled a pair
-so we reward the player. Write `if ($dice1 === $dice2)`, and inside return `25`.
-If we didn't roll anything good we'll call the next handler, so once again check if it is set
-by writing `if (isset($this->next))` and inside write `return $this->next->handle($player, $fightResult)`,
-and return `0` at the bottom.
+Now let's work on the `handle()` method. Roll a couple of six-sided dice by
+writing `$dice1 = Dice::roll(6)` and `$dice2 = Dice::roll(6)`. The first thing
+we need to do here is check to see if we rolled 7, because if we did, we need to
+exit immediately. Write `if ($dice1 + $dice2 === 7)` and, inside, return `0`.
+Below that, we'll check to see if we rolled a pair so we can reward the player.
+Write `if ($dice1 === $dice2)`, and inside that, return `25`. If we didn't roll
+well, we'll call the next handler, so, once again, check to see if it's set by
+writing `if (isset($this->next))`. Inside,
+write `return $this->next->handle($player, $fightResult)`... and return `0` at
+the bottom.
 
-Phew! We finished implementing our handlers, but before we can give this a try
-we need to initialize the chain, and while we do so we'll discover a downside of this pattern.
-Let's do that next!
+Phew! We finished implementing our handlers! But before we can give this a try,
+we'll need to *initialize* the chain. When we do that, we'll get to see the
+*downside* of this pattern. Let's do that *next*.
