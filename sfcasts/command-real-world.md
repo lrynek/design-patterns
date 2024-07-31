@@ -29,7 +29,7 @@ Okay, *that's* the Command pattern! Let's recap what it does:
 
 It is a great way to encapsulate methods into objects. ✅
 Allow decoupling the *what* from the *how* and *when*. ✅
-Support *undoable* operations. ✅
+Supports *undoable* operations. ✅
 And, it leverages the *Single Responsibility Principle* and the *Open/Closed Principle*. ✅
 
 But, it increases code complexity because we're introducing a new layer. ❌
