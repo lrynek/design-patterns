@@ -5,6 +5,8 @@ constructor, and we'll *start* by instantiating all of the handlers.
 Write `$casinoHandler = new CasinoHandler()`, `$levelHandler = new LevelHandler()`,
 and finally `$onFireHandler = new OnFireHandler()`.
 
+[[[ code('6404b77347') ]]]
+
 *Here's* where we can decide the order or *sequence* of the chain. If your
 application doesn't need to execute the handlers in any particular order,
 *great*! You can set this up however you want! But in *our* case, we know that
@@ -19,14 +21,18 @@ need to do is to set the `CasinoHandler` in a *property* of this class, so
 write `$this->xpBonusHandler = $casinoHandler`, and hold "Option" + "Enter" to
 add the property. Oh! And change its type to `XpBonusHandlerInterface`. Perfect!
 
+[[[ code('e306ae3b22') ]]]
+
 Okay, this chain needs to be triggered after a battle finishes, and there's a
 convenient method we can use to do that. Find the `endBattle()` method, and
 right before notifying the observers, trigger the chain by
 writing `$xpBonus = $this->xpBonusHandler->handle()`, where the first argument
-is the `$winner` and the *second* is
-its `$fightResult` - `$fightResultSet->of($winner)`. Finally, we'll add the
-extra XP to the `$winner` with `$winner->addXp($xpBonus)`. Cool! Let's give this
-a try!
+is the `$winner` and the *second* is `$fightResultSet->of($winner)`. Finally, we'll add the
+extra XP to the `$winner` with `$winner->addXp($xpBonus)`. 
+
+[[[ code('9baa52c9ef') ]]]
+
+Cool! Let's give this a try!
 
 Spin over to your terminal and run:
 
@@ -43,6 +49,12 @@ this, we can print a message in each handler so it's obvious.
 
 To do this quickly, you can copy the code from below this video, paste, and...
 sweet! Let's see if that worked!
+
+[[[ code('5e342e52da') ]]]
+
+[[[ code('c31a007407') ]]]
+
+[[[ code('8f2f82456a') ]]]
 
 Back at your terminal, run
 

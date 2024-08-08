@@ -3,8 +3,12 @@
 Now that we're pros at *applying* the Command pattern, can you guess where
 *Symfony* uses it? If you said "Symfony Console", you're right! And, we've been
 using it all along. Open up `GameCommand`. We can see that it extends from
-this `Command` base class. This belongs to Symfony, and it comes with a bunch of
-goodies. Check it out! Hold "command" and click on the class name to open it.
+this `Command` base class. 
+
+[[[ code('ad32a2b203') ]]]
+
+This belongs to Symfony, and it comes with a bunch of goodies.
+Check it out! Hold "command" and click on the class name to open it.
 This has *a lot* of stuff, and that makes sense. It needs to handle a lot of
 things like options, arguments, and more. It can't be as simple as our commands
 because it needs to be extendable and handle a lot of different use cases. Lucky
@@ -22,6 +26,31 @@ can have *any* dependency, and the `__invoke()` method is our `execute()`
 method. Our business logic goes there. The only thing it's missing is an
 *interface*. And, by the way, it *used to* have that in a previous version, but it was replaced
 by PHP attributes because it's only purpose was to tag the class as a message handler.
+
+```php
+#[AsMessageHandler]
+class SendOrderEmailHandler
+{
+    public function __construct(
+        private readonly Mailer $mailer,
+        private readonly OrderRepository $orderRepository
+    ) {}
+
+    public function __invoke(SendOrderEmail $message): void
+    {
+        $order = $this->orderRepository->find($message->getOrderId());
+        if (!$order) {
+            throw new UnrecoverableMessageHandlingException(
+                sprintf('Order ID %s not found', $message->getOrderId())
+            );
+        }
+
+        $this->mailer->sendSubscriptionPaidMail($order);
+        $order->setEmailSent(true);
+        $this->orderRepository->save($order);
+    }
+}
+```
 
 ## Conclusion
 

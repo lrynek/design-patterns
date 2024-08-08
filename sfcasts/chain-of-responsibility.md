@@ -70,44 +70,68 @@ write `public function setNext(XpBonusHandlerInterface $next): void`. And I
 almost forgot to add the `Character` import statement. Press "Option" + "Enter"
 and select "Import class".
 
+[[[ code('b09d162e41') ]]]
+
 Okay, the interface is ready! It's time to add some *handlers*. Inside
 the `ChainHandler/` directory, add a PHP class. The first condition to reward
 players is if they're level 1, so we'll call this `LevelHandler`. Now we need to
 implement the `XpBonusHandlerInterface`. We've seen this before! Hold "Option" + "Enter"
 to add both methods.
 
+[[[ code('33dbfef597') ]]]
+
 We'll work on `setNext()` first. Inside, write `$this->next = $next;`. Then, to
 add the property, click on `$this->next`, press "Option" + "Enter", and
-select "Add property". Perfect! Now let's work on the `handle()` method. We want
-to reward the player if their level is 1, so
-write `if ($player->getLevel() === 1)` and, inside, we'll `return 25;`. If the
-player's level is *not* 1, we'll call the next handler, but only if it's set, so
+select "Add property". 
+
+[[[ code('3fa77b2094') ]]]
+
+Perfect! Now let's work on the `handle()` method. We want to reward the player
+if their level is 1, so write `if ($player->getLevel() === 1)` and, inside, we'll `return 25;`.
+If the player's level is *not* 1, we'll call the next handler, but only if it's set, so
 write `if (isset($this->next))`. Inside,
 we'll `return $this->next->handle($player, $fightResult)`. At the bottom, we'll
 just `return 0;`. That means we made it to the end of the chain and none of the
 handlers applied.
 
+[[[ code('ce1208a9bb') ]]]
+
 Let's keep it going! Add another PHP class for our second winning condition -
 when the player has won 3 or more times in a row - and we'll call
 it `OnFireHandler`. Implement the interface... and use the same trick with
-"Option" + "Enter" to add the methods. We'll do the same thing with
-the `setNext()`. Write `$this->next = $next`, and hold "Option" + "Enter" to add
-the property. In the `handle()` method, we need to check for the player's win
-streak. That value is inside `$fightResult`, so
-write `if ($fightResult->getWinStreak() >= 3)`. Inside *that*, reward the player
-by returning `25`. Below, add the same check as before, calling the next
-handler: `if (isset($this->next))`...
-and `return $this->next->handle($player, $fightResult)`. So... I'm not in love
-with this repetition. Surely there's a better way to do this, right? There *is*,
-and we'll talk about that later, but for now, let's finish up this method and
+"Option" + "Enter" to add the methods. 
+
+[[[ code('12978a5278') ]]]
+
+We'll do the same thing with the `setNext()`. Write `$this->next = $next`,
+and hold "Option" + "Enter" to add the property.
+
+[[[ code('576b3e127b') ]]]
+
+In the `handle()` method, we need to check for the player's win streak.
+That value is inside `$fightResult`, so write `if ($fightResult->getWinStreak() >= 3)`.
+Inside *that*, reward the player by returning `25`. Below, add the same check as before, calling the next
+handler: `if (isset($this->next))`... and `return $this->next->handle($player, $fightResult)`.
+
+[[[ code('519ff58562') ]]]
+
+So... I'm not in love with this repetition. Surely there's a better way to do this, right?
+There *is*, and we'll talk about that later, but for now, let's finish up this method and
 return `0` at the bottom.
+
+[[[ code('37b7dbe1ab') ]]]
 
 On to the last handler condition, where we roll two dice and check to see if we rolled
 a pair or a 7. Let's call it `CasinoHandler`, since we're doing a little
 gambling. We'll start this in the same way, implementing the interface and
-adding the methods by holding "Option" + "Enter". Then, just like before,
-implement `setNext()`. Inside, write `$this->next = $next` and add the property
-on top.
+adding the methods by holding "Option" + "Enter".
+
+[[[ code('849b092e5a') ]]]
+
+Then, just like before, implement `setNext()`. Inside, write `$this->next = $next`
+and add the property on top.
+
+[[[ code('13fa412ed8') ]]]
 
 Now let's work on the `handle()` method. Roll a couple of six-sided dice by
 writing `$dice1 = Dice::roll(6)` and `$dice2 = Dice::roll(6)`. The first thing
@@ -119,6 +143,8 @@ well, we'll call the next handler, so, once again, check to see if it's set by
 writing `if (isset($this->next))`. Inside,
 write `return $this->next->handle($player, $fightResult)`... and return `0` at
 the bottom.
+
+[[[ code('fbc7f5019f') ]]]
 
 Phew! We finished implementing our handlers! But before we can give this a try,
 we'll need to *initialize* the chain. When we do that, we'll get to see a
