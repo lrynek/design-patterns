@@ -107,4 +107,4 @@ This would even allow us to remove the `setNext()` method from the interface,
 which is pretty handy. I don't want to deviate that much from the original
 pattern's design, so I'll undo that, but it's good to keep in mind.
 
-Next: Meet the Chain of Responsibility's *cousin* - the *Middleware* pattern.
+Next: We'll meet the Chain of Responsibility's *cousin* - the *Middleware* pattern.
