@@ -1,0 +1,422 @@
+WEBVTT
+
+00:00:01.056 --> 00:00:04.926 align:middle
+Es hora del patrón de diseño número
+dos: el patrón Cadena de Responsabilidad.
+
+00:00:05.526 --> 00:00:08.696 align:middle
+A veces, no existe una
+definición oficial de un patrón.
+
+00:00:09.006 --> 00:00:11.566 align:middle
+Ésta no es una excepción, así
+que aquí tienes mi definición.
+
+00:00:12.056 --> 00:00:17.236 align:middle
+En pocas palabras, la Cadena de Responsabilidad es una
+forma de establecer una secuencia de métodos a ejecutar,
+
+00:00:17.756 --> 00:00:22.996 align:middle
+donde cada método puede decidir ejecutar el siguiente
+de la cadena o detener la secuencia por completo.
+
+00:00:23.646 --> 00:00:26.866 align:middle
+Cuando tenemos que ejecutar una secuencia de
+comprobaciones para determinar qué hacer a continuación,
+
+00:00:27.086 --> 00:00:28.746 align:middle
+este patrón puede ayudarnos a hacerlo.
+
+00:00:29.206 --> 00:00:32.246 align:middle
+Supongamos que queremos comprobar
+si un comentario es spam o no,
+
+00:00:32.506 --> 00:00:35.936 align:middle
+y tenemos cinco algoritmos diferentes
+para ayudarnos a tomar esa determinación.
+
+00:00:36.496 --> 00:00:41.756 align:middle
+Si alguno de ellos devuelve true, significa que
+el comentario es spam y debemos detener el proceso
+
+00:00:41.786 --> 00:00:43.746 align:middle
+porque ejecutar algoritmos es caro.
+
+00:00:44.396 --> 00:00:48.316 align:middle
+En una situación como ésta, tenemos
+que encapsular cada algoritmo en una
+
+00:00:48.316 --> 00:00:51.326 align:middle
+clase "manejadora", configurar
+la cadena y ejecutarla.
+
+00:00:51.966 --> 00:00:57.446 align:middle
+Ahora bien, si te preguntas qué es una clase "manejadora"
+o a qué me refiero con "cadena", ¡grandes preguntas!
+
+00:00:57.966 --> 00:01:00.396 align:middle
+Echemos un vistazo más de cerca
+a la anatomía del patrón.
+
+00:01:01.056 --> 00:01:06.196 align:middle
+La Cadena de Responsabilidad se compone de tres
+partes: En primer lugar, tiene un HandlerInterface,
+
+00:01:06.356 --> 00:01:09.896 align:middle
+que suele contener dos
+métodos: setNext() y handle().
+
+00:01:10.386 --> 00:01:13.526 align:middle
+El método setNext() recibe un
+nuevo objeto HandlerInterface.
+
+00:01:13.946 --> 00:01:18.096 align:middle
+Esto nos permite establecer una secuencia de
+manejadores, eligiendo qué manejadores queremos
+
+00:01:18.096 --> 00:01:20.296 align:middle
+en la secuencia y en qué orden aparecen.
+
+00:01:20.886 --> 00:01:22.226 align:middle
+Esta secuencia se denomina cadena.
+
+00:01:22.626 --> 00:01:25.046 align:middle
+El método handle() es donde
+ponemos nuestra lógica de negocio.
+
+00:01:25.736 --> 00:01:29.846 align:middle
+En segundo lugar están los manejadores concretos,
+que implementan el método HandlerInterface.
+
+00:01:30.226 --> 00:01:34.086 align:middle
+Pueden contener el siguiente objeto
+HandlerInterface (añadido con setNext())
+
+00:01:34.246 --> 00:01:36.026 align:middle
+y decidir si debe ser llamado o no.
+
+00:01:36.426 --> 00:01:40.726 align:middle
+Si no contienen el siguiente manejador, este
+manejador es el último eslabón de la cadena.
+
+00:01:41.426 --> 00:01:45.406 align:middle
+Por último, tenemos un cliente que establece la
+cadena, asegurándose de que la secuencia está
+
+00:01:45.406 --> 00:01:47.566 align:middle
+en el orden correcto y
+activa el primer controlador.
+
+00:01:48.316 --> 00:01:51.326 align:middle
+Si ahora tienes más preguntas que
+cuando empezamos, ¡no te preocupes!
+
+00:01:51.566 --> 00:01:53.456 align:middle
+Tendrá más sentido cuando
+lo veamos en acción.
+
+00:01:54.256 --> 00:01:57.036 align:middle
+Para nuestro próximo reto, vamos
+a aumentar el nivel del jugador.
+
+00:01:57.466 --> 00:02:00.936 align:middle
+Para ello, recompensaremos a los jugadores
+con XP extra después de una batalla.
+
+00:02:01.246 --> 00:02:05.056 align:middle
+Podemos recompensarles de varias formas distintas,
+pero sólo se debe aplicar una a la vez.
+
+00:02:05.566 --> 00:02:10.166 align:middle
+Las condiciones para las recompensas de XP son
+las siguientes: Uno: Si el jugador es de nivel 1.
+
+00:02:10.696 --> 00:02:13.456 align:middle
+Dos: Si el jugador ha ganado
+3 veces o más seguidas.
+
+00:02:13.886 --> 00:02:18.636 align:middle
+Y tres: para añadir algo de aleatoriedad,
+el jugador lanzará dos dados de seis caras.
+
+00:02:19.116 --> 00:02:22.736 align:middle
+Gana si sale un par, pero si
+el resultado es 7, no gana.
+
+00:02:23.316 --> 00:02:25.906 align:middle
+Cada condición recompensará
+al jugador con 25 XP.
+
+00:02:26.936 --> 00:02:28.186 align:middle
+Bien, ¡hagámoslo!
+
+00:02:28.476 --> 00:02:31.856 align:middle
+El primer paso que tenemos que dar es crear
+una interfaz para nuestros manejadores.
+
+00:02:32.286 --> 00:02:36.006 align:middle
+Dentro del directorio src/, crea una
+nueva carpeta llamada ChainHandler/.
+
+00:02:36.666 --> 00:02:39.426 align:middle
+Y dentro de ella, añadiremos
+una nueva clase PHP llamada...
+
+00:02:39.686 --> 00:02:42.346 align:middle
+XpBonusHandlerInterface.
+
+00:02:42.866 --> 00:02:46.126 align:middle
+Recomiendo incluir el nombre del patrón
+como parte del nombre de la interfaz
+
+00:02:46.246 --> 00:02:48.326 align:middle
+para que sea más obvio qué
+patrón estamos utilizando.
+
+00:02:49.116 --> 00:02:53.456 align:middle
+Ahora podemos añadir el primer método -
+public function handle() - y los argumentos -
+
+00:02:53.726 --> 00:02:56.976 align:middle
+Character $player y FightResult $fightResult.
+
+00:02:57.656 --> 00:03:01.246 align:middle
+Estos son los dos objetos necesarios para
+calcular todas las condiciones anteriores.
+
+00:03:01.726 --> 00:03:04.426 align:middle
+Y no olvides añadir el tipo de retorno int.
+
+00:03:04.726 --> 00:03:05.806 align:middle
+Éste será el XP.
+
+00:03:06.586 --> 00:03:12.656 align:middle
+Para el siguiente método escribe public function
+setNext(XpBonusHandlerInterface $next): void.
+
+00:03:12.656 --> 00:03:15.166 align:middle
+Y casi se me olvida añadir
+la sentencia import Character.
+
+00:03:15.586 --> 00:03:18.556 align:middle
+Pulsa "Opción" + "Intro" y
+selecciona "Importar clase".
+
+00:03:19.186 --> 00:03:20.666 align:middle
+Bien, ¡la interfaz está lista!
+
+00:03:21.166 --> 00:03:22.736 align:middle
+Es hora de añadir algunos manejadores.
+
+00:03:23.196 --> 00:03:26.516 align:middle
+Dentro del directorio
+ChainHandler/, añade una clase PHP.
+
+00:03:26.996 --> 00:03:28.666 align:middle
+La primera condición para
+recompensar a los jugadores
+
+00:03:28.666 --> 00:03:31.916 align:middle
+es que sean de nivel 1, así
+que la llamaremos LevelHandler.
+
+00:03:34.386 --> 00:03:37.786 align:middle
+Ahora tenemos que implementar
+el XpBonusHandlerInterface.
+
+00:03:38.176 --> 00:03:39.256 align:middle
+¡Esto ya lo hemos visto antes!
+
+00:03:40.026 --> 00:03:42.476 align:middle
+Mantén pulsadas las teclas "Opción"
++ "Intro" para añadir ambos métodos.
+
+00:03:43.336 --> 00:03:45.016 align:middle
+Primero trabajaremos en setNext().
+
+00:03:45.496 --> 00:03:48.446 align:middle
+Dentro, escribe $this->next = $next;.
+
+00:03:48.966 --> 00:03:51.716 align:middle
+Luego, para añadir la propiedad,
+haz clic en $this->next,
+
+00:03:51.956 --> 00:03:54.756 align:middle
+pulsa "Opción" + "Intro", y
+selecciona "Añadir propiedad".
+
+00:03:55.386 --> 00:03:57.906 align:middle
+¡Perfecto! Ahora vamos a
+trabajar en el método handle().
+
+00:03:58.326 --> 00:04:00.486 align:middle
+Queremos recompensar al
+jugador si su nivel es 1,
+
+00:04:00.846 --> 00:04:07.196 align:middle
+así que escribe if ($player->getLevel()
+=== 1) y, dentro, haremos return 25;.
+
+00:04:07.196 --> 00:04:12.446 align:middle
+Si el nivel del jugador no es 1, llamaremos al
+siguiente manejador, pero sólo si está establecido,
+
+00:04:12.736 --> 00:04:15.306 align:middle
+así que escribe if (isset($this->next)).
+
+00:04:16.516 --> 00:04:20.816 align:middle
+Dentro, escribiremos return
+$this->next->handle($player, $fightResult).
+
+00:04:20.816 --> 00:04:23.636 align:middle
+Al final, escribiremos return 0;.
+
+00:04:24.036 --> 00:04:27.466 align:middle
+Eso significa que hemos llegado al final de la cadena
+y no se ha aplicado ninguno de los manejadores.
+
+00:04:28.326 --> 00:04:29.026 align:middle
+¡Sigamos así!
+
+00:04:29.436 --> 00:04:33.886 align:middle
+Añade otra clase PHP para nuestra segunda
+condición ganadora -cuando el jugador haya ganado 3
+
+00:04:33.886 --> 00:04:37.266 align:middle
+o más veces seguidas- y la
+llamaremos OnFireHandler.
+
+00:04:38.586 --> 00:04:39.656 align:middle
+Implementa la interfaz...
+
+00:04:39.656 --> 00:04:42.806 align:middle
+y utiliza el mismo truco con "Opción"
++ "Intro" para añadir los métodos.
+
+00:04:43.686 --> 00:04:45.346 align:middle
+Haremos lo mismo con setNext().
+
+00:04:45.716 --> 00:04:50.046 align:middle
+Escribe $this->next = $next, y mantén pulsada
+"Opción" + "Intro" para añadir la propiedad.
+
+00:04:50.716 --> 00:04:53.656 align:middle
+En el método handle(), necesitamos
+comprobar la racha de victorias del jugador.
+
+00:04:54.126 --> 00:05:01.056 align:middle
+Ese valor está dentro de $fightResult, así que
+escribe if ($fightResult->getWinStreak() >= 3).
+
+00:05:01.756 --> 00:05:04.676 align:middle
+Dentro, recompensa al jugador devolviendo 25.
+
+00:05:05.416 --> 00:05:11.396 align:middle
+A continuación, añade la misma comprobación que antes,
+llamando al siguiente manejador: if (isset($this->next))...
+
+00:05:11.656 --> 00:05:15.796 align:middle
+y return $this->next->handle($player,
+$fightResult).
+
+00:05:16.626 --> 00:05:18.596 align:middle
+Así que... no me gusta esta repetición.
+
+00:05:19.016 --> 00:05:20.806 align:middle
+Seguro que hay una forma
+mejor de hacerlo, ¿verdad?
+
+00:05:21.476 --> 00:05:24.416 align:middle
+La hay, y hablaremos de ella
+más adelante, pero por ahora,
+
+00:05:24.586 --> 00:05:27.426 align:middle
+terminemos este método
+y devolvamos 0 al final.
+
+00:05:28.406 --> 00:05:31.756 align:middle
+Pasemos a la última condición del manejador,
+en la que tiramos dos dados y comprobamos
+
+00:05:31.756 --> 00:05:33.986 align:middle
+si hemos sacado un par o un 7.
+
+00:05:34.546 --> 00:05:37.696 align:middle
+Llamémosla CasinoHandler, ya
+que estamos apostando un poco.
+
+00:05:38.456 --> 00:05:41.186 align:middle
+Empezaremos de la misma forma,
+implementando la interfaz
+
+00:05:41.186 --> 00:05:43.566 align:middle
+y añadiendo los métodos manteniendo
+pulsadas las teclas "Opción" + "Intro".
+
+00:05:44.356 --> 00:05:47.416 align:middle
+Después, igual que antes,
+implementa setNext().
+
+00:05:47.776 --> 00:05:51.676 align:middle
+Dentro, escribe $this->next =
+$next y añade la propiedad encima.
+
+00:05:52.526 --> 00:05:53.896 align:middle
+Ahora vamos a trabajar en el método handle().
+
+00:05:54.356 --> 00:05:56.016 align:middle
+Tira un par de dados de seis caras
+
+00:05:56.016 --> 00:06:02.446 align:middle
+escribiendo $dice1 = Dice::roll(6)
+y $dice2 = Dice::roll(6).
+
+00:06:03.576 --> 00:06:06.436 align:middle
+Lo primero que tenemos que hacer
+aquí es comprobar si hemos sacado 7,
+
+00:06:06.826 --> 00:06:09.196 align:middle
+porque si es así, tenemos
+que salir inmediatamente.
+
+00:06:09.726 --> 00:06:16.326 align:middle
+Escribe if ($dice1 + $dice2
+=== 7) y, dentro, devuelve 0.
+
+00:06:17.116 --> 00:06:20.866 align:middle
+A continuación, comprobaremos si hemos sacado
+un par para poder recompensar al jugador.
+
+00:06:21.296 --> 00:06:27.466 align:middle
+Escribe if ($dice1 === $dice2)
+y, dentro, devuelve 25.
+
+00:06:28.406 --> 00:06:31.696 align:middle
+Si no hemos sacado bien, llamaremos al
+siguiente controlador, así que, una vez más,
+
+00:06:31.886 --> 00:06:35.726 align:middle
+comprueba si está activado
+escribiendo if (isset($this->next)).
+
+00:06:36.476 --> 00:06:41.266 align:middle
+Dentro, escribe return
+$this->next->handle($player, $fightResult)...
+
+00:06:42.206 --> 00:06:43.526 align:middle
+y devuelve 0 al final.
+
+00:06:44.426 --> 00:06:46.716 align:middle
+¡Uf! ¡Hemos terminado de
+implementar nuestros manejadores!
+
+00:06:47.086 --> 00:06:50.466 align:middle
+Pero antes de probarlo, tendremos
+que inicializar la cadena.
+
+00:06:51.006 --> 00:06:53.926 align:middle
+Cuando lo hagamos, veremos una
+desventaja de este patrón.
+
+00:06:54.266 --> 00:06:55.206 align:middle
+Hagámoslo a continuación.
