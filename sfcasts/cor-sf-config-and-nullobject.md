@@ -54,7 +54,7 @@ checks. Instead of checking to see if a property is `null`, as we've done in the
 past, we'll create a "null object" that implements the same interface and does
 nothing in their methods. What does this mean? Put simply, if a method returns a
 value, it will return as close to null as possible. For example, if it returns
-an array, you can return an empty array, or an empty string, or a 0 for `int`.
+an `array`, you'd return an empty array. A string? Return an empty string. An `int`? Return 0.
 It can get even more complicated that this, but you get the idea.
 
 So let's get to it! Back in our code, find that `if` we've been talking about,
