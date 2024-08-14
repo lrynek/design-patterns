@@ -1,0 +1,153 @@
+WEBVTT
+
+00:00:01.066 --> 00:00:05.546 align:middle
+Ahora que somos profesionales en la aplicación del patrón
+Comando, ¿puedes adivinar dónde lo utiliza Symfony?
+
+00:00:06.016 --> 00:00:08.426 align:middle
+Si has dicho "Consola Symfony",
+¡estás en lo cierto!
+
+00:00:08.796 --> 00:00:10.536 align:middle
+Y, lo hemos estado utilizando todo el tiempo.
+
+00:00:11.116 --> 00:00:12.146 align:middle
+Abre GameCommand.
+
+00:00:12.756 --> 00:00:16.086 align:middle
+Podemos ver que extiende a partir
+de esta clase base Command.
+
+00:00:16.406 --> 00:00:19.146 align:middle
+Esta pertenece a Symfony, y viene
+con un montón de cosas buenas.
+
+00:00:19.636 --> 00:00:20.146 align:middle
+¡Compruébalo!
+
+00:00:20.416 --> 00:00:22.756 align:middle
+Mantén pulsado "comando" y haz clic
+en el nombre de la clase para abrirla.
+
+00:00:23.316 --> 00:00:25.646 align:middle
+Esto tiene un montón de
+cosas, y tiene sentido.
+
+00:00:26.076 --> 00:00:29.256 align:middle
+Tiene que manejar un montón de cosas,
+como opciones, argumentos y demás.
+
+00:00:29.766 --> 00:00:32.996 align:middle
+No puede ser tan simple como nuestros
+comandos porque tiene que ser ampliable
+
+00:00:32.996 --> 00:00:34.986 align:middle
+y manejar un montón de
+casos de uso diferentes.
+
+00:00:35.476 --> 00:00:38.226 align:middle
+Por suerte para nosotros, sólo
+nos interesa el método execute().
+
+00:00:38.666 --> 00:00:40.466 align:middle
+Vamos a buscarlo y a ver qué hace.
+
+00:00:40.936 --> 00:00:42.056 align:middle
+No hace nada.
+
+00:00:42.536 --> 00:00:44.646 align:middle
+Bueno, nos obliga a implementarlo,
+
+00:00:44.906 --> 00:00:48.196 align:middle
+y eso es genial porque es nuestro punto
+de entrada al sistema de comandos.
+
+00:00:48.776 --> 00:00:52.306 align:middle
+A Symfony no le importa el código que pongamos
+aquí, así que podemos hacer lo que queramos.
+
+00:00:52.676 --> 00:00:57.586 align:middle
+¡Genial! Otro lugar donde se utiliza el patrón
+Comando en Symfony es en el componente Messenger.
+
+00:00:58.006 --> 00:01:02.356 align:middle
+No es super obvio porque Messenger maneja
+eventos, colas, trabajadores y demás,
+
+00:01:02.656 --> 00:01:07.846 align:middle
+y aprovecha otros patrones como el middleware,
+el despachador de eventos, etc, pero si prestamos
+
+00:01:07.846 --> 00:01:12.106 align:middle
+atención a los "Manejadores de mensajes", podemos darnos cuenta
+de que son bastante similares a nuestros comandos de acción.
+
+00:01:12.576 --> 00:01:15.226 align:middle
+Por ejemplo, el constructor puede
+tener cualquier dependencia,
+
+00:01:15.226 --> 00:01:17.636 align:middle
+y el método __invoke() es
+nuestro método execute().
+
+00:01:17.956 --> 00:01:19.396 align:middle
+Nuestra lógica de negocio va ahí.
+
+00:01:20.026 --> 00:01:21.916 align:middle
+Lo único que le falta es una interfaz.
+
+00:01:21.916 --> 00:01:25.406 align:middle
+Y, por cierto, solía tenerla en una
+versión anterior, pero fue sustituida
+
+00:01:25.406 --> 00:01:30.396 align:middle
+por atributos PHP porque su único propósito era
+etiquetar la clase como manejadora de mensajes.
+
+00:01:31.256 --> 00:01:32.996 align:middle
+Bien, ¡ese es el patrón Comando!
+
+00:01:33.266 --> 00:01:38.176 align:middle
+Recapitulemos lo que hace: Es una forma
+estupenda de encapsular métodos en objetos.
+
+00:01:38.176 --> 00:01:41.246 align:middle
+Permite desacoplar el qué
+del cómo y el cuándo.
+
+00:01:41.246 --> 00:01:43.906 align:middle
+Admite operaciones que se pueden deshacer.
+
+00:01:43.906 --> 00:01:48.946 align:middle
+Y, aprovecha el Principio de Responsabilidad
+Única y el Principio Abierto/Cerrado.
+
+00:01:48.946 --> 00:01:52.966 align:middle
+Pero, aumenta la complejidad del código
+porque estamos introduciendo una nueva capa.
+
+00:01:53.466 --> 00:01:56.006 align:middle
+Y, como cada comando
+requiere una clase distinta,
+
+00:01:56.276 --> 00:01:59.236 align:middle
+puede introducir un número
+significativo de clases adicionales.
+
+00:01:59.236 --> 00:02:00.576 align:middle
+¡Muy bien!
+
+00:02:00.796 --> 00:02:03.766 align:middle
+¡Es hora de recompensar a los
+jugadores tras una dura batalla!
+
+00:02:04.186 --> 00:02:07.396 align:middle
+Pero hay distintas clases de
+recompensas y sólo debe aplicarse una.
+
+00:02:07.886 --> 00:02:11.166 align:middle
+Para ello, aprovecharemos el
+patrón Cadena de responsabilidades.
+
+00:02:11.556 --> 00:02:12.246 align:middle
+Eso a continuación.
