@@ -1,0 +1,159 @@
+WEBVTT
+
+00:00:01.056 --> 00:00:02.396 align:middle
+Abre GameApplication.
+
+00:00:02.806 --> 00:00:05.206 align:middle
+Vamos a configurar la cadena
+dentro de su constructor,
+
+00:00:05.456 --> 00:00:08.306 align:middle
+y empezaremos por instanciar
+todos los manejadores.
+
+00:00:08.676 --> 00:00:14.496 align:middle
+Escribe $casinoHandler = new CasinoHandler(),
+$levelHandler = new LevelHandler(),
+
+00:00:14.796 --> 00:00:18.606 align:middle
+y finalmente $onFireHandler
+= new OnFireHandler().
+
+00:00:19.176 --> 00:00:22.116 align:middle
+Aquí es donde podemos decidir el
+orden o secuencia de la cadena.
+
+00:00:22.116 --> 00:00:27.046 align:middle
+Si tu aplicación no necesita ejecutar los
+manejadores en ningún orden concreto, ¡genial!
+
+00:00:27.436 --> 00:00:29.046 align:middle
+¡Puedes configurarlo como quieras!
+
+00:00:29.496 --> 00:00:34.216 align:middle
+Pero en nuestro caso, sabemos que el CasinoHandler
+puede afectar al jugador si sacamos un 7,
+
+00:00:34.216 --> 00:00:36.266 align:middle
+así que hay que llamarlo primero.
+
+00:00:36.836 --> 00:00:40.626 align:middle
+Los otros dos controladores pueden ir en cualquier
+orden, así que empezaremos con el CasinoHandler.
+
+00:00:41.086 --> 00:00:46.036 align:middle
+Escribe $casinoHandler->setNext($levelHandler),
+seguido de LevelHandler -
+
+00:00:46.276 --> 00:00:51.536 align:middle
+$levelHandler->setNext($onFireHandler)
+- y podemos dejar solo el OnFireHandler.
+
+00:00:51.906 --> 00:00:53.366 align:middle
+Será el último de la cadena.
+
+00:00:53.936 --> 00:00:58.046 align:middle
+Lo último que tenemos que hacer es establecer
+el CasinoHandler en una propiedad de esta clase,
+
+00:00:58.046 --> 00:01:04.566 align:middle
+así que escribe $this->xpBonusHandler = $casinoHandler, y mantén
+pulsadas las teclas "Opción" + "Intro" para añadir la propiedad.
+
+00:01:05.236 --> 00:01:09.306 align:middle
+Y cambia su tipo a XpBonusHandlerInterface.
+
+00:01:09.306 --> 00:01:13.806 align:middle
+¡Perfecto! Vale, esta cadena tiene que
+activarse cuando termine una batalla,
+
+00:01:13.856 --> 00:01:16.346 align:middle
+y hay un método muy práctico
+que podemos utilizar para hacerlo.
+
+00:01:16.346 --> 00:01:20.506 align:middle
+Busca el método endBattle(), y justo
+antes de notificar a los observadores,
+
+00:01:20.766 --> 00:01:26.396 align:middle
+activa la cadena escribiendo $xpBonus =
+$this->xpBonusHandler->handle(),
+
+00:01:26.856 --> 00:01:31.796 align:middle
+donde el primer argumento es $winner y el
+segundo es $fightResultSet->of($winner).
+
+00:01:31.796 --> 00:01:38.786 align:middle
+Por último, añadiremos la XP extra al
+$winner con $winner->addXp($xpBonus).
+
+00:01:38.786 --> 00:01:40.216 align:middle
+¡Genial! ¡Vamos a probarlo!
+
+00:01:40.216 --> 00:01:45.586 align:middle
+Gira hasta tu terminal y ejecuta: php
+bin/console app:game:play Seré un luchador
+
+00:01:45.586 --> 00:01:49.546 align:middle
+y atacaré hasta que, con suerte, gane, y...
+
+00:01:50.236 --> 00:01:51.966 align:middle
+¡ganamos! Pero...
+
+00:01:52.396 --> 00:01:54.436 align:middle
+¿cómo sabemos qué manipulador
+ha entrado en acción?
+
+00:01:54.996 --> 00:01:57.436 align:middle
+Bueno, ése es un inconveniente
+de este patrón de diseño.
+
+00:01:57.756 --> 00:02:00.666 align:middle
+Es difícil de depurar, ya que se
+puede llamar a cualquier controlador.
+
+00:02:01.346 --> 00:02:06.556 align:middle
+Para evitarlo, podemos imprimir un mensaje
+en cada manejador para que sea obvio.
+
+00:02:06.556 --> 00:02:12.216 align:middle
+Para hacerlo rápidamente, puedes copiar el
+código de debajo de este vídeo, pegarlo, y...
+
+00:02:12.386 --> 00:02:14.146 align:middle
+¡genial! ¡Veamos si ha funcionado!
+
+00:02:14.436 --> 00:02:19.366 align:middle
+De vuelta a tu terminal, ejecuta php
+bin/console app:game:play Otra vez,
+
+00:02:19.426 --> 00:02:24.046 align:middle
+juega hasta que termine la batalla, y...
+
+00:02:24.616 --> 00:02:25.276 align:middle
+¡mira esto!
+
+00:02:25.536 --> 00:02:26.396 align:middle
+¡Ahí está nuestro mensaje!
+
+00:02:26.826 --> 00:02:30.286 align:middle
+El LevelHandler ha funcionado y
+nos ha recompensado con XP extra.
+
+00:02:30.286 --> 00:02:34.206 align:middle
+¡Fantástico! Vale, esto es genial,
+pero creo que podemos hacerlo mejor.
+
+00:02:34.926 --> 00:02:38.256 align:middle
+Podemos aprovechar la inyección de dependencias
+de Symfony para inicializar la cadena.
+
+00:02:38.256 --> 00:02:43.616 align:middle
+Como extra, refactorizaremos los manejadores para
+que dejen de comprobar si $next está establecido
+
+00:02:43.776 --> 00:02:45.916 align:middle
+aplicando el patrón Objeto Nulo.
+
+00:02:46.386 --> 00:02:47.256 align:middle
+¡Vamos a hacerlo!
